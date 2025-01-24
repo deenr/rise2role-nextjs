@@ -1,5 +1,6 @@
 import { forgotPasswordAction } from '@/app/actions';
 import { FormMessage, Message } from '@/components/form-message';
+import { Rise2RoleLogo } from '@/components/rise2role-logo';
 import { SubmitButton } from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -12,8 +13,9 @@ export default async function ForgotPassword(props: { searchParams: Promise<Mess
   const searchParams = await props.searchParams;
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-[420px] flex-col pt-32">
-      <div className="mb-8 text-center">
+    <div className="m-auto flex w-full max-w-[420px] flex-col px-4">
+      <Rise2RoleLogo className="absolute left-4 top-12 h-6 min-h-6 w-[170px] md:left-8 md:top-8" />
+      <div className="mb-8 sm:text-center">
         <h2 className="text-3xl font-semibold">Reset Password</h2>
         <p className="mt-2 text-base text-muted-foreground">You can reset your password here</p>
       </div>

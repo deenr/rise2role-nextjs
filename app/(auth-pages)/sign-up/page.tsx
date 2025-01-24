@@ -1,5 +1,6 @@
-import { signInAction } from '@/app/actions';
+import { signUpAction } from '@/app/actions';
 import { FormMessage, Message } from '@/components/form-message';
+import { Rise2RoleLogo } from '@/components/rise2role-logo';
 import { SubmitButton } from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -19,8 +20,9 @@ export default async function Signup(props: { searchParams: Promise<Message> }) 
   }
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-[420px] flex-col pt-32">
-      <div className="mb-8 text-center">
+    <div className="m-auto flex w-full max-w-[420px] flex-col px-4">
+      <Rise2RoleLogo className="absolute left-4 top-12 h-6 min-h-6 w-[170px] md:left-8 md:top-8" />
+      <div className="mb-8 sm:text-center">
         <h2 className="text-3xl font-semibold">Create your account</h2>
         <p className="mt-2 text-base text-muted-foreground">Create your account by entering your details</p>
       </div>
@@ -44,7 +46,7 @@ export default async function Signup(props: { searchParams: Promise<Message> }) 
                 <FormMessage message={searchParams} />
               </div>
             </div>
-            <SubmitButton className="w-full" pendingText="Signing up..." formAction={signInAction}>
+            <SubmitButton className="w-full" pendingText="Signing up..." formAction={signUpAction}>
               Sign up
               <ArrowRight className="h-4 w-4" />
             </SubmitButton>
@@ -61,7 +63,7 @@ export default async function Signup(props: { searchParams: Promise<Message> }) 
           </Link>
         </p>
       </div>
-      <p className="mt-auto pb-12 text-center text-xs text-muted-foreground">
+      <p className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center text-xs text-muted-foreground">
         By continuing, you agree to our{' '}
         <a href="terms" className="underline underline-offset-4 hover:text-primary">
           Terms of Service
