@@ -10,65 +10,71 @@ datasource db {
   schemas   = ["auth", "public", "storage"]
 }
 
-model user_profile {
+model userProfile {
   id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email           String          @unique
-  created_at      DateTime        @default(now())
-  job_categories  job_category[]
-  kanban_boards   kanban_board[]
+  createdAt       DateTime        @default(now()) @map("created_at")
+  jobCategories   jobCategory[]   
+  kanbanBoards    kanbanBoard[]   
 
   @@schema("public")
+  @@map("user_profile")  
 }
 
-model kanban_board {
-  id              String          @id @db.Uuid
+model kanbanBoard {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title           String
-  created_at      DateTime        @default(now())
-  updated_at      DateTime        @updatedAt
-  owner_id        String          @db.Uuid // Ensures compatibility with user_profile.id
-  owner           user_profile    @relation(fields: [owner_id], references: [id])
-  job_applications job_application[]
-  shared_link     shared_board_link?
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  ownerId         String          @db.Uuid @map("owner_id")
+  owner           userProfile     @relation(fields: [ownerId], references: [id])
+  jobApplications jobApplication[] 
+  sharedLink      sharedBoardLink? 
 
   @@schema("public")
+  @@map("kanban_board")
 }
 
-model job_category {
-  id              String          @id @db.Uuid
+model jobCategory {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
-  user_id         String          @db.Uuid
-  user            user_profile    @relation(fields: [user_id], references: [id])
-  job_applications job_application[]
+  order           Int
+  userId          String          @db.Uuid @map("user_id")
+  user            userProfile     @relation(fields: [userId], references: [id])
+  jobApplications jobApplication[] 
 
   @@schema("public")
+  @@map("job_category")
 }
 
-model job_application {
-  id              String          @id @db.Uuid
-  category_id     String?         @db.Uuid
-  category        job_category?   @relation(fields: [category_id], references: [id])
-  job_title       String
-  company_name    String
-  company_size    String?
-  company_industry String?
-  location        String?
-  work_model      String?
-  skills          String[]
-  job_url         String
-  kanban_board_id String          @db.Uuid
-  kanban_board    kanban_board    @relation(fields: [kanban_board_id], references: [id])
+model jobApplication {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId      String?         @db.Uuid @map("category_id")
+  category        jobCategory?    @relation(fields: [categoryId], references: [id])
+  jobTitle        String          @map("job_title")
+  companyName     String          @map("company_name")
+  companySize     String?         @map("company_size")
+  companyIndustry String?         @map("company_industry")
+  location        String?         @map("location")
+  workModel       String?         @map("work_model")
+  skills          String[]        @map("skills")
+  jobUrl          String          @map("job_url")
+  kanbanBoardId   String          @db.Uuid @map("kanban_board_id")
+  kanbanBoard     kanbanBoard     @relation(fields: [kanbanBoardId], references: [id])
 
   @@schema("public")
+  @@map("job_application")
 }
 
-model shared_board_link {
-  id              String          @id @db.Uuid
-  link_token      String          @unique
-  created_at      DateTime        @default(now())
-  kanban_board_id String          @db.Uuid @unique
-  kanban_board    kanban_board    @relation(fields: [kanban_board_id], references: [id])
+model sharedBoardLink {
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  linkToken       String          @unique @map("link_token")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  kanbanBoardId   String          @db.Uuid @unique @map("kanban_board_id")
+  kanbanBoard     kanbanBoard     @relation(fields: [kanbanBoardId], references: [id])
 
   @@schema("public")
+  @@map("shared_board_link")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
