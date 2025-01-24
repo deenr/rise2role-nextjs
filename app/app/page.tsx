@@ -1,5 +1,9 @@
+import { AppSidebar } from '@/components/app-sidebar';
+import { UserNavigation } from '@/components/nav-user';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { createClient } from '@/utils/supabase/server';
-import { InfoIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
 
 export default async function ProtectedPage() {
@@ -14,20 +18,39 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-12">
-      <div className="w-full">
-        <div className="flex items-center gap-3 rounded-md bg-accent p-3 px-5 text-sm text-foreground">
-          <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated user
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb className="mr-auto">
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <UserNavigation
+            user={{
+              name: 'Dean Reymen',
+              email: 'dean@reymen.be'
+            }}
+          />
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
-      </div>
-      <div className="flex flex-col items-start gap-2">
-        <h2 className="mb-4 text-2xl font-bold">Your user details</h2>
-        <pre className="max-h-32 overflow-auto rounded border p-3 font-mono text-xs">{JSON.stringify(user, null, 2)}</pre>
-      </div>
-      <div>
-        <h2 className="mb-4 text-2xl font-bold">Next steps</h2>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
