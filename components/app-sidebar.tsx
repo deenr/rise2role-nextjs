@@ -14,8 +14,8 @@ const data = {
       icon: <LayoutDashboard />
     },
     {
-      title: 'Kanban Boards',
-      url: '/app/boards',
+      title: 'Kanban Board',
+      url: '/app/board',
       icon: <Kanban />
     },
     {
