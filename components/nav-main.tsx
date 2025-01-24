@@ -20,7 +20,6 @@ export function NavMain({
     <SidebarGroup className="p-4">
       <SidebarMenu>
         {items.map((item) => {
-          console.log(pathname, item.url);
           const isActive = pathname === item.url;
 
           return (
