@@ -26,7 +26,7 @@ const data = {
       icon: <File />
     },
     {
-      title: 'Job Categories',
+      title: 'Categories',
       url: '/dashboard/categories',
       icon: <Tags />
     }
@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="gap-4 p-4 pb-6">
         <SidebarCta />
         <NavUserMobile
           user={{

@@ -15,18 +15,14 @@ export default async function CategoriesPage() {
           fallback={
             <>
               {[1, 2, 3].map((index) => (
-                <Card key={index} className="flex flex-row items-center gap-4 p-4 shadow-none">
+                <Card key={index} className="flex min-h-[70px] flex-row items-center gap-4 p-4 shadow-none">
                   <Skeleton className="size-5" />
                   <Skeleton className="size-4 rounded-full" />
                   <Skeleton className="h-6 w-1/4" />
-                  <div className="ml-auto flex size-9 items-center justify-center gap-1">
-                    <Skeleton className="size-5 rounded-full" />
-                  </div>
                 </Card>
               ))}
               <div className="flex h-9 flex-row items-center justify-center gap-2 rounded-md border border-dashed px-4 py-2">
-                <Skeleton className="size-5 rounded-full" />
-                <Skeleton className="h-full w-1/4" />
+                <Skeleton className="h-full w-1/3" />
               </div>
             </>
           }

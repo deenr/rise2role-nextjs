@@ -24,7 +24,7 @@ export function NavUserMobile({ user, logout, className, ...props }: { user: Use
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton size="lg" className={cn('data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground', className)} {...props}>
+            <SidebarMenuButton size="lg" variant="outline" className={cn('rounded-xl', className)} {...props}>
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">{initials}</AvatarFallback>
