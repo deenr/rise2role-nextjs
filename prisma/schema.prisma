@@ -38,6 +38,7 @@ model kanbanBoard {
 model jobCategory {
   id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
+  hexColor        String
   order           Int
   userId          String          @db.Uuid @map("user_id")
   user            userProfile     @relation(fields: [userId], references: [id])
@@ -49,8 +50,8 @@ model jobCategory {
 
 model jobApplication {
   id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  categoryId      String?         @db.Uuid @map("category_id")
-  category        jobCategory?    @relation(fields: [categoryId], references: [id])
+  categoryId      String          @db.Uuid @map("category_id")
+  category        jobCategory     @relation(fields: [categoryId], references: [id])
   jobTitle        String          @map("job_title")
   companyName     String          @map("company_name")
   companySize     String?         @map("company_size")
