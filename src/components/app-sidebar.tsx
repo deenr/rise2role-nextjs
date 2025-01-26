@@ -1,8 +1,10 @@
 import * as React from 'react';
 
+import { signOutAction } from '@/app/dashboard/actions';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { File, Kanban, LayoutDashboard, Tags } from 'lucide-react';
+import { NavUserMobile } from './nav-user-mobile';
 import { Rise2RoleLogo } from './rise2role-logo';
 import { SidebarCta } from './sidebar-opt-in-form';
 
@@ -41,9 +43,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <div className="p-1">
-          <SidebarCta />
-        </div>
+        <SidebarCta />
+        <NavUserMobile
+          user={{
+            name: 'Dean Reymen',
+            email: 'dean@reymen.be'
+          }}
+          logout={signOutAction}
+        />
       </SidebarFooter>
     </Sidebar>
   );

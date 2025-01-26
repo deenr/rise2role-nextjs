@@ -47,7 +47,7 @@ export async function createJobApplication(formData: FormData) {
       }
     });
 
-    revalidatePath('/kanban');
+    revalidatePath('/dashboard/kanban');
   } catch (error) {
     throw new Error('Failed to create job application');
   }

@@ -2,11 +2,11 @@ import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';
 import { KanbanColumn } from './kanban-column';
 
-export default async function CategoriesPage() {
+export default async function KanbanPage() {
   const categories = await prisma.jobCategory.findMany({ where: { userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }, orderBy: { order: 'asc' } });
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-1 flex-row gap-4 overflow-y-scroll px-4 pb-12 md:px-8">
       <Suspense fallback={<>Loading...</>}>
         {categories.map((category) => (
           <KanbanColumn key={category.id} {...category} color={category.hexColor} categories={categories} />

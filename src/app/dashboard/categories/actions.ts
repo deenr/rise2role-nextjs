@@ -17,7 +17,7 @@ export async function updateCategory(formData: FormData) {
       where: { id },
       data: { name, hexColor: color }
     });
-    revalidatePath('/categories');
+    revalidatePath('/dashboard/categories');
   } catch (error) {
     throw new Error('Failed to update category');
   }
@@ -32,13 +32,11 @@ export async function createCategory(formData: FormData) {
     throw new Error('Missing order, name or color');
   }
 
-  console.log({ data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' } });
-
   try {
     await prisma.jobCategory.create({
       data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }
     });
-    revalidatePath('/categories');
+    revalidatePath('/dashboard/categories');
   } catch (error) {
     throw new Error('Failed to update category');
   }

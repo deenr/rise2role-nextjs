@@ -1,16 +1,17 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { LogOut, User } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 
-interface NavUser {
+interface UserInfo {
   name: string;
   email: string;
   avatar?: string;
 }
 
-export function UserNavigation({ user, logout }: { user: NavUser; logout?: () => Promise<void> }) {
+export function NavUserDesktop({ user, logout, className, ...props }: { user: UserInfo; logout?: () => Promise<void> } & React.ComponentPropsWithoutRef<typeof Avatar>) {
   const initials = user.name
     .split(' ')
     .slice(0, 2)
@@ -20,7 +21,7 @@ export function UserNavigation({ user, logout }: { user: NavUser; logout?: () =>
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="h-9 w-9 cursor-pointer rounded-full">
+        <Avatar className={cn('h-9 w-9 cursor-pointer rounded-full', className)} {...props}>
           <AvatarImage src={user.avatar} alt={user.name} />
           <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">{initials}</AvatarFallback>
         </Avatar>

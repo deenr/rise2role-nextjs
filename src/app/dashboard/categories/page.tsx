@@ -5,7 +5,7 @@ import CategoriesSection from './categories-section';
 
 export default async function CategoriesPage() {
   return (
-    <div>
+    <div className="px-4 pb-12 md:px-8">
       <header>
         <h3 className="text-lg font-semibold text-foreground">Categories</h3>
         <p className="text-base text-muted-foreground">View and/or edit your categories here</p>

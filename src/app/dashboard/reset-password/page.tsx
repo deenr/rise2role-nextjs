@@ -4,18 +4,27 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { resetPasswordAction } from './actions';
 
-export default async function ResetPassword(props: { searchParams: Promise<Message> }) {
+export default async function ResetPasswordPage(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
+
   return (
-    <form className="flex w-full max-w-md flex-col gap-2 p-4 [&>input]:mb-4">
-      <h1 className="text-2xl font-medium">Reset password</h1>
-      <p className="text-sm text-foreground/60">Please enter your new password below.</p>
-      <Label htmlFor="password">New password</Label>
-      <Input type="password" name="password" placeholder="New password" required />
-      <Label htmlFor="confirmPassword">Confirm password</Label>
-      <Input type="password" name="confirmPassword" placeholder="Confirm password" required />
-      <SubmitButton formAction={resetPasswordAction}>Reset password</SubmitButton>
-      <FormMessage message={searchParams} />
-    </form>
+    <div className="px-4 pb-12 md:px-8">
+      <header>
+        <h3 className="text-lg font-semibold text-foreground">Reset password</h3>
+        <p className="text-base text-muted-foreground">Please enter your new password below.</p>
+      </header>
+      <form className="mt-8 grid w-full max-w-lg gap-6">
+        <div className="grid gap-2">
+          <Label htmlFor="password">New password</Label>
+          <Input name="password" placeholder="New password" required />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="confirmPassword">New password</Label>
+          <Input name="confirmPassword" placeholder="New password" required />
+          <FormMessage message={searchParams} />
+        </div>
+        <SubmitButton formAction={resetPasswordAction}>Reset password</SubmitButton>
+      </form>
+    </div>
   );
 }
