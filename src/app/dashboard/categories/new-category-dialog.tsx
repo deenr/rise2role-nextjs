@@ -9,7 +9,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { createCategory } from './actions';
 
-export default function NewCategoryDialog() {
+export default function NewCategoryDialog({ order }: { order: number }) {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState<string>('');
   const [color, setColor] = useState<string>('');
@@ -33,6 +33,7 @@ export default function NewCategoryDialog() {
           }}
           className="space-y-4"
         >
+          <input type="hidden" name="order" value={order} />
           <input type="hidden" name="color" value={color} />
           <div className="flex flex-row gap-4">
             <GradientPicker className="min-w-32 max-w-32" color={color} setColor={setColor} />

@@ -1,13 +1,9 @@
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';
-import CategoryCard from './category-card';
-import NewCategoryDialog from './new-category-dialog';
+import CategoriesSection from './categories-section';
 
 export default async function CategoriesPage() {
-  const categories = await prisma.jobCategory.findMany({ where: { userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }, orderBy: { order: 'asc' } });
-
   return (
     <div>
       <header>
@@ -35,8 +31,7 @@ export default async function CategoriesPage() {
             </>
           }
         >
-          {categories?.map((category) => <CategoryCard key={category.id} {...category} />)}
-          <NewCategoryDialog />
+          <CategoriesSection />
         </Suspense>
       </section>
     </div>

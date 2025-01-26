@@ -24,16 +24,19 @@ export async function updateCategory(formData: FormData) {
 }
 
 export async function createCategory(formData: FormData) {
+  const order = formData.get('order') as string;
   const name = formData.get('name') as string;
   const color = formData.get('color') as string;
 
-  if (!name || !color) {
-    throw new Error('Missing name or color');
+  if (!order || !name || !color) {
+    throw new Error('Missing order, name or color');
   }
+
+  console.log({ data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' } });
 
   try {
     await prisma.jobCategory.create({
-      data: { name, hexColor: color, order: 0, userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }
+      data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }
     });
     revalidatePath('/categories');
   } catch (error) {
