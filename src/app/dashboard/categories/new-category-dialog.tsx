@@ -10,7 +10,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { createCategory } from './actions';
 
-export default function NewCategoryDialog({ order }: { order: number }) {
+export function NewCategoryDialog({ order }: { order: number }) {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState<string>('');
   const [color, setColor] = useState<string>('');

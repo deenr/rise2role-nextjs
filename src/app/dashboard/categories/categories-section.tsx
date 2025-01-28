@@ -1,9 +1,11 @@
-import { prisma } from '@/lib/prisma';
-import CategoryCard from './category-card';
-import NewCategoryDialog from './new-category-dialog';
+import { getCurrentUser } from '@/lib/session';
+import { getCategoriesUseCase } from '@/use-cases/categories';
+import { CategoryCard } from './category-card';
+import { NewCategoryDialog } from './new-category-dialog';
 
-export default async function CategoriesSection() {
-  const categories = await prisma.jobCategory.findMany({ where: { userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }, orderBy: { order: 'asc' } });
+export async function CategoriesSection() {
+  const user = await getCurrentUser();
+  const categories = await getCategoriesUseCase(user);
 
   return (
     <>

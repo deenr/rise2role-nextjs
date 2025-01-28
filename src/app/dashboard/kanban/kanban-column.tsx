@@ -1,11 +1,13 @@
 import { Badge } from '@/components/ui/badge';
-import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/session';
+import { getJobApplicationsByKanbanBoardIdUseCase } from '@/use-cases/job-applications';
 import { jobCategory } from '@prisma/client';
 import { KanbanCard } from './kanban-card';
 import { NewJobApplicationDialog } from './new-job-application-dialog';
 
-export async function KanbanColumn({ id, name, color, categories }: { id: string; name: string; color: string; categories: jobCategory[] }) {
-  const jobApplications = await prisma.jobApplication.findMany({ where: { categoryId: id } });
+export async function KanbanColumn({ id, name, color, categories, kanbanBoardId }: { id: string; name: string; color: string; categories: jobCategory[]; kanbanBoardId: string }) {
+  const user = await getCurrentUser();
+  const jobApplications = await getJobApplicationsByKanbanBoardIdUseCase(user, id, kanbanBoardId);
 
   return (
     <div className="flex min-w-64 flex-1 flex-col gap-4">

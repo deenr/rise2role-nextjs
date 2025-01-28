@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/card';
 import { GripVertical } from 'lucide-react';
-import EditCategoryDialog from './edit-category-dialog';
+import { EditCategoryDialog } from './edit-category-dialog';
 
-export default function CategoryCard({ id, name, hexColor }: { id: string; name: string; hexColor: string }) {
+export function CategoryCard({ id, name, hexColor }: { id: string; name: string; hexColor: string }) {
   return (
     <Card className="flex flex-row items-center gap-4 p-4">
       <GripVertical className="size-5 text-muted-foreground" />

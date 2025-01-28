@@ -1,10 +1,14 @@
-import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/session';
+import { getCategoriesUseCase } from '@/use-cases/categories';
+import { getKanbanBoardsUseCase } from '@/use-cases/kanban-boards';
 import { Suspense } from 'react';
 import { KanbanColumn } from './kanban-column';
 import { KanbanSkeletonColumn } from './kanban-column-skeleton';
 
 export default async function KanbanPage() {
-  const categories = await prisma.jobCategory.findMany({ where: { userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }, orderBy: { order: 'asc' } });
+  const user = await getCurrentUser();
+  const categories = await getCategoriesUseCase(user);
+  const kanbanBoard = (await getKanbanBoardsUseCase(user))[0]; // index 0 as user is currently limited to one kanban board
 
   return (
     <div className="flex flex-1 flex-row gap-4 overflow-y-scroll px-4 pb-12 md:px-8">
@@ -14,7 +18,7 @@ export default async function KanbanPage() {
         ))}
       >
         {categories.map((category) => (
-          <KanbanColumn key={category.id} {...category} color={category.hexColor} categories={categories} />
+          <KanbanColumn key={category.id} {...category} color={category.hexColor} categories={categories} kanbanBoardId={kanbanBoard.id} />
         ))}
       </Suspense>
     </div>

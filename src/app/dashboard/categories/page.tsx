@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
-import CategoriesSection from './categories-section';
+import { CategoriesSection } from './categories-section';
 
 export default async function CategoriesPage() {
   return (

@@ -10,10 +10,10 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { updateCategory } from './actions';
 
-export default function EditCategoryDialog({ id, name, color }: { id: string; name: string; color: string }) {
+export function EditCategoryDialog({ id, name, color }: { id: string; name: string; color: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [newName, setNewName] = useState(name);
-  const [newColor, setNewColor] = useState<string>(color);
+  const [newColor, setNewColor] = useState(color);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

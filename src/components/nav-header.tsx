@@ -10,7 +10,7 @@ import { SidebarTrigger } from './ui/sidebar';
 
 export function NavHeader() {
   return (
-    <header className="fixed flex h-16 w-full flex-row items-center gap-4 border-b bg-sidebar pl-4 pr-2 md:w-[calc(100%-256px)] md:pl-6 md:pr-6">
+    <header className="fixed flex h-16 w-full flex-row items-center gap-4 border-b bg-sidebar pl-4 pr-2 md:w-[calc(100%-256px)] md:pl-8 md:pr-8">
       <div className="group relative hidden min-w-64 md:block">
         <Search className="absolute left-3 top-1/2 size-4 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-all group-focus-within:scale-110 group-focus-within:text-primary" />
         <Input className="bg-background pl-9" placeholder="Search..." />
