@@ -5,3 +5,8 @@ export async function getJobApplicationsByCategoryIdAndKanbanBoardId(categoryId:
 
   return applications;
 }
+export async function getJobApplicationsByKanbanBoardId(kanbanBoardId: string) {
+  const applications = await prisma.jobApplication.findMany({ where: { kanbanBoardId } });
+
+  return applications;
+}

@@ -80,7 +80,7 @@ export function KanbanCard({
           )}
         </div>
 
-        {skills && skills.length > 0 && (
+        {skills && skills.length > 0 && skills[0] !== '' && (
           <div className="flex flex-wrap gap-1.5">
             {skills.map((skill, index) => (
               <Badge key={index} variant="outline">
