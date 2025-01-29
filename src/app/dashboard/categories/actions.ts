@@ -18,6 +18,7 @@ export async function updateCategory(formData: FormData) {
       data: { name, hexColor: color }
     });
     revalidatePath('/dashboard/categories');
+    revalidatePath('/dashboard/kanban');
   } catch (error) {
     throw new Error('Failed to update category');
   }
@@ -37,6 +38,7 @@ export async function createCategory(formData: FormData) {
       data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }
     });
     revalidatePath('/dashboard/categories');
+    revalidatePath('/dashboard/kanban');
   } catch (error) {
     throw new Error('Failed to update category');
   }

@@ -1,6 +1,6 @@
 import { getCurrentUser } from '@/lib/session';
 import { getCategoriesUseCase } from '@/use-cases/categories';
-import { getKanbanBoardsUseCase } from '@/use-cases/kanban-boards';
+import { getKanbanBoardUseCase } from '@/use-cases/kanban-boards';
 import { Suspense } from 'react';
 import { KanbanColumn } from './kanban-column';
 import { KanbanSkeletonColumn } from './kanban-column-skeleton';
@@ -8,7 +8,7 @@ import { KanbanSkeletonColumn } from './kanban-column-skeleton';
 export default async function KanbanPage() {
   const user = await getCurrentUser();
   const categories = await getCategoriesUseCase(user);
-  const kanbanBoard = (await getKanbanBoardsUseCase(user))[0]; // index 0 as user is currently limited to one kanban board
+  const kanbanBoard = await getKanbanBoardUseCase(user);
 
   return (
     <div className="flex flex-1 flex-row gap-4 overflow-y-scroll px-4 pb-12 md:px-8">

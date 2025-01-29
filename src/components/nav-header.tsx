@@ -1,23 +1,17 @@
 'use client';
 
 import { signOutAction } from '@/app/dashboard/actions';
-import { Search, Share2 } from 'lucide-react';
-import { NavUserDesktop } from './nav-user-desktop';
-import { Rise2RoleLogo } from './rise2role-logo';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { SidebarTrigger } from './ui/sidebar';
+import { CommandPanel } from '@/components/command-panel';
+import { NavUserDesktop } from '@/components/nav-user-desktop';
+import { Rise2RoleLogo } from '@/components/rise2role-logo';
+import { Button } from '@/components/ui/button';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Share2 } from 'lucide-react';
 
 export function NavHeader() {
   return (
     <header className="fixed z-50 flex h-16 w-full flex-row items-center gap-4 border-b bg-sidebar pl-4 pr-2 md:w-[calc(100%-256px)] md:pl-8 md:pr-8">
-      <div className="group relative hidden min-w-64 md:block">
-        <Search className="absolute left-3 top-1/2 size-4 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-all group-focus-within:scale-110 group-focus-within:text-primary" />
-        <Input className="bg-background pl-9" placeholder="Search..." />
-        <kbd className="pointer-events-none absolute right-2.5 top-1/2 ml-auto inline-flex h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>K
-        </kbd>
-      </div>
+      <CommandPanel />
       <div className="ml-auto hidden gap-1 md:flex">
         <Button variant="ghost" size="icon">
           <Share2 className="h-4 w-4" />
