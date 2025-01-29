@@ -1,7 +1,7 @@
 'use client';
 
 import { signOutAction } from '@/app/dashboard/actions';
-import { Bell, Search, Share2 } from 'lucide-react';
+import { Search, Share2 } from 'lucide-react';
 import { NavUserDesktop } from './nav-user-desktop';
 import { Rise2RoleLogo } from './rise2role-logo';
 import { Button } from './ui/button';
@@ -23,11 +23,11 @@ export function NavHeader() {
           <Share2 className="h-4 w-4" />
           <span className="sr-only">Share board</span>
         </Button>
-        <Button className="relative" variant="ghost" size="icon">
+        {/* <Button className="relative" variant="ghost" size="icon">
           <Bell className="h-4 w-4" />
           <span className="sr-only">Notifications</span>
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary" />
-        </Button>
+        </Button> */}
       </div>
       <NavUserDesktop
         className="hidden md:block"

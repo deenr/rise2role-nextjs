@@ -10,7 +10,7 @@ export async function KanbanColumn({ id, name, color, categories, kanbanBoardId 
   const jobApplications = await getJobApplicationsByKanbanBoardIdUseCase(user, id, kanbanBoardId);
 
   return (
-    <div className="flex min-w-64 flex-1 flex-col gap-4">
+    <div className="flex w-full min-w-[320px] flex-1 flex-col gap-4">
       <header className="relative flex min-h-10 flex-row items-center rounded-lg border bg-card px-3">
         <span className="text-card-foreground">{name}</span>
         <Badge className="ml-2 px-1.5" style={{ backgroundColor: color }}>

@@ -6,7 +6,7 @@ import { signOutAction } from '@/app/dashboard/actions';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { File, Kanban, Tags } from 'lucide-react';
+import { Files, Kanban, Tags } from 'lucide-react';
 import { NavUserMobile } from './nav-user-mobile';
 import { Rise2RoleLogo } from './rise2role-logo';
 import { SidebarCta } from './sidebar-opt-in-form';
@@ -26,7 +26,7 @@ const data = {
     {
       title: 'Job Applications',
       url: '/dashboard/jobs',
-      icon: <File />
+      icon: <Files />
     },
     {
       title: 'Categories',
