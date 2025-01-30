@@ -7,16 +7,19 @@ import { Rise2RoleLogo } from '@/components/rise2role-logo';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Share2 } from 'lucide-react';
+import Link from 'next/link';
 
 export function NavHeader() {
   return (
     <header className="fixed z-50 flex h-16 w-full flex-row items-center gap-4 border-b bg-sidebar pl-4 pr-2 md:w-[calc(100%-256px)] md:pl-8 md:pr-8">
       <CommandPanel />
       <div className="ml-auto hidden gap-1 md:flex">
-        <Button variant="ghost" size="icon">
-          <Share2 className="h-4 w-4" />
-          <span className="sr-only">Share board</span>
-        </Button>
+        <Link href="/dashboard/settings?tab=share">
+          <Button variant="ghost" size="icon">
+            <Share2 className="h-4 w-4" />
+            <span className="sr-only">Share board</span>
+          </Button>
+        </Link>
         {/* <Button className="relative" variant="ghost" size="icon">
           <Bell className="h-4 w-4" />
           <span className="sr-only">Notifications</span>

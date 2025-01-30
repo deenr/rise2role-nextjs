@@ -13,6 +13,9 @@ datasource db {
 model userProfile {
   id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email           String          @unique
+  firstName       String?         @map("first_name")
+  lastName        String?         @map("last_name")
+  role            String?         
   createdAt       DateTime        @default(now()) @map("created_at")
   jobCategories   jobCategory[]   
   kanbanBoards    kanbanBoard[]   

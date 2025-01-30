@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { LogOut, User } from 'lucide-react';
+import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 
@@ -40,10 +41,12 @@ export function NavUserDesktop({ user, logout, className, ...props }: { user: Us
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <User />
-          Profile
-        </DropdownMenuItem>
+        <Link href="/dashboard/settings">
+          <DropdownMenuItem>
+            <User />
+            Profile
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>
           <LogOut />

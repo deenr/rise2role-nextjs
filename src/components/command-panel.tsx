@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export function CommandPanel() {
+  const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -23,9 +24,9 @@ export function CommandPanel() {
 
   return (
     <>
-      <div className="group relative hidden min-w-64 md:block">
+      <div className="group relative hidden min-w-64 cursor-text md:block" onClick={() => setOpen(true)}>
         <Search className="absolute left-3 top-1/2 size-4 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-all group-focus-within:scale-110 group-focus-within:text-primary" />
-        <Input className="bg-background pl-9" placeholder="Search..." onClick={() => setOpen(true)} />
+        <Input className="pointer-events-none bg-background pl-9" placeholder="Search..." />
         <kbd className="pointer-events-none absolute right-2.5 top-1/2 ml-auto inline-flex h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
           <span className="text-xs">⌘</span>K
         </kbd>
@@ -56,16 +57,20 @@ export function CommandPanel() {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Settings">
-            <CommandItem>
-              <Share2 />
-              <span>Share</span>
-              {/* <CommandShortcut>⌘S</CommandShortcut> */}
-            </CommandItem>
-            <CommandItem>
-              <User />
-              <span>Profile</span>
-              {/* <CommandShortcut>⌘P</CommandShortcut> */}
-            </CommandItem>
+            <Link href="/dashboard/settings?tab=share" onClick={() => setOpen(false)}>
+              <CommandItem>
+                <Share2 />
+                <span>Share</span>
+                {/* <CommandShortcut>⌘S</CommandShortcut> */}
+              </CommandItem>
+            </Link>
+            <Link href="/dashboard/settings?tab=profile" onClick={() => setOpen(false)}>
+              <CommandItem>
+                <User />
+                <span>Profile</span>
+                {/* <CommandShortcut>⌘P</CommandShortcut> */}
+              </CommandItem>
+            </Link>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
