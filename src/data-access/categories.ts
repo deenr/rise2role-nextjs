@@ -15,3 +15,11 @@ export const getCategories = cache(async (authenticatedUser: User | null) => {
 
   return categories;
 });
+
+export const getCategoriesBySharedBoard = cache(async (sharedBoard: string) => {
+  const jobApplicationsWithCategories = await prisma.jobCategory.findMany({
+    where: { user: { kanbanBoards: { some: { sharedLink: { linkToken: sharedBoard } } } } },
+    orderBy: { order: 'asc' }
+  });
+  return jobApplicationsWithCategories;
+});

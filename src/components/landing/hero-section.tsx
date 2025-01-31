@@ -98,10 +98,12 @@ function KanbanBoardDemo({ className, ...props }: React.ComponentPropsWithoutRef
   const controls = useAnimationControls();
 
   useEffect(() => {
+    let isCancelled = false;
+
     const animate = async () => {
       await new Promise((resolve) => setTimeout(resolve, 4000));
 
-      while (true) {
+      while (!isCancelled) {
         await controls.start({
           x: 344,
           transition: { duration: 3, ease: 'easeInOut' }
@@ -118,6 +120,10 @@ function KanbanBoardDemo({ className, ...props }: React.ComponentPropsWithoutRef
     };
 
     animate();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [controls]);
 
   const springTransition = {
