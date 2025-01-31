@@ -16,7 +16,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="overflow-hidden bg-muted px-4 pb-64 pt-28 dark:bg-muted/30 sm:px-6 sm:pt-32 md:px-8 md:pb-36 md:pt-48 lg:px-12">
+    <section className="overflow-hidden bg-muted px-4 pb-56 pt-28 dark:bg-muted/30 xs:pb-64 sm:px-6 sm:pt-32 md:px-8 md:pb-36 md:pt-48 lg:px-12">
       <div className="relative mx-auto flex max-w-7xl flex-col gap-6 sm:gap-8 md:flex-row md:gap-12">
         <div className="flex flex-col gap-6 sm:gap-8 md:gap-12">
           <div className="flex flex-col items-start gap-4">
@@ -55,7 +55,7 @@ export function HeroSection() {
               —Interested, Applied, Interview, Offer, and more.
             </motion.p>
           </div>
-          <div className="relative z-50 flex w-full flex-col gap-3 xs:flex-row sm:w-auto">
+          <div className="relative z-10 flex w-full flex-col gap-3 xs:flex-row sm:w-auto">
             <motion.div viewport={{ once: true }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...springTransition, delay: 0.7 }}>
               <Button variant="outline" className="=sm:w-auto w-full" onClick={() => document.getElementById('process')?.scrollIntoView({ behavior: 'smooth' })}>
                 Learn more
@@ -71,7 +71,7 @@ export function HeroSection() {
             </motion.div>
           </div>
         </div>
-        <div className="scale-70 absolute -bottom-[700px] -left-5 sm:-right-32 sm:left-auto sm:top-64 sm:scale-100 lg:-right-8 xl:top-32">
+        <div className="absolute -bottom-[640px] -left-[98px] scale-75 xs:-bottom-[680px] xs:-left-[52px] xs:scale-90 sm:-right-32 sm:left-auto sm:top-64 sm:scale-100 lg:-right-8 xl:top-32">
           <KanbanBoardDemo />
         </div>
       </div>
