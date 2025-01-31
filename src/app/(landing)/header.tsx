@@ -50,7 +50,7 @@ export function Header() {
           </Link>
 
           <div className="flex flex-row gap-3">
-            <Link className="xs:block hidden" href="/sign-in">
+            <Link className="hidden xs:block" href="/sign-in">
               <Button variant="outline">Sign in</Button>
             </Link>
             <Link href="/sign-up">
