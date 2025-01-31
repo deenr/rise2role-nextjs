@@ -77,7 +77,7 @@ export function ProcessSection() {
             </motion.p>
           </div>
         </div>
-        <div className="flex flex-row flex-wrap gap-4">
+        <div className="grid grid-rows-2 gap-4 md:grid-cols-2">
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -85,9 +85,9 @@ export function ProcessSection() {
               initial={stepAnimation.initial}
               animate={areStepsInView[index] ? stepAnimation.animate : {}}
               transition={{ ...stepAnimation.transition, delay: 0.1 * (index + 1) }}
-              className="min-w-md w-full"
+              className={index === 2 ? 'h-full md:col-span-2' : 'h-full'}
             >
-              <ProcessStep number={index + 1} {...step} />
+              <ProcessStep className="h-full" number={index + 1} {...step} />
             </motion.div>
           ))}
         </div>
