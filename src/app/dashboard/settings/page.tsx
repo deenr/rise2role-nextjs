@@ -1,12 +1,15 @@
 import { Message } from '@/components/form-message';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProfileSection } from './profile-section';
+import { Suspense } from 'react';
+import { ProfileSection } from './profile/profile-section';
+import { ProfileSectionSkeleton } from './profile/profile-section-skeleton';
 import { ResetPasswordForm } from './reset-password-form';
-import { ShareForm } from './share-form';
+import { ShareSection } from './share/share-section';
+import { ShareSectionSkeleton } from './share/share-section-skeleton';
 
 export default async function DashboardSettingsPage({ searchParams: searchParamsPromise }: { searchParams: Promise<{ tab: 'profile' | 'share' | 'reset-password' } & Message> }) {
-  const searchParams = await searchParamsPromise;
-  const defaultTab = searchParams.tab ?? 'profile';
+  const params = await searchParamsPromise;
+  const defaultTab = params.tab ?? 'profile';
 
   return (
     <div className="px-4 pb-12 md:px-8">
@@ -18,13 +21,17 @@ export default async function DashboardSettingsPage({ searchParams: searchParams
           <TabsTrigger value="reset-password">Reset password</TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
-          <ProfileSection searchParams={searchParams} />
+          <Suspense fallback={<ProfileSectionSkeleton />}>
+            <ProfileSection searchParams={params} />
+          </Suspense>
         </TabsContent>
         <TabsContent value="share">
-          <ShareForm searchParams={searchParams} />
+          <Suspense fallback={<ShareSectionSkeleton />}>
+            <ShareSection searchParams={params} />
+          </Suspense>
         </TabsContent>
         <TabsContent value="reset-password">
-          <ResetPasswordForm searchParams={searchParams} />
+          <ResetPasswordForm searchParams={params} />
         </TabsContent>
       </Tabs>
     </div>

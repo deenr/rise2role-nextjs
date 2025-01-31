@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Bell, ChevronsUpDown, LogOut, Share2, User } from 'lucide-react';
+import { ChevronsUpDown, LogOut, Share2, User } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar';
@@ -62,10 +62,10 @@ export function NavUserMobile({ user, logout, className, ...props }: { user: Use
                 <Share2 />
                 Share board
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <Bell />
                 Notifications
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

@@ -1,13 +1,12 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
 import { Files, Kanban, Search, Share2, Tags, User } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export function CommandPanel() {
-  const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -24,13 +23,13 @@ export function CommandPanel() {
 
   return (
     <>
-      <div className="group relative hidden min-w-64 cursor-text md:block" onClick={() => setOpen(true)}>
-        <Search className="absolute left-3 top-1/2 size-4 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-all group-focus-within:scale-110 group-focus-within:text-primary" />
-        <Input className="pointer-events-none bg-background pl-9" placeholder="Search..." />
-        <kbd className="pointer-events-none absolute right-2.5 top-1/2 ml-auto inline-flex h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+      <Button variant="outline" className="hidden min-w-64 pl-3 pr-2.5 md:flex md:flex-row md:items-center" onClick={() => setOpen(true)}>
+        <Search className="size-4 text-muted-foreground" />
+        <div className="text-base font-normal text-muted-foreground md:text-sm">Search...</div>
+        <kbd className="ml-auto inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
           <span className="text-xs">⌘</span>K
         </kbd>
-      </div>
+      </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>

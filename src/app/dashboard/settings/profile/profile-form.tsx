@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { userProfile } from '@prisma/client';
 import { useState } from 'react';
-import { updateProfileAction } from './actions';
+import { updateProfileAction } from '../actions';
 
 export function ProfileForm({ profile, searchParams }: { profile: userProfile; searchParams: Message }) {
   const [firstName, setFirstName] = useState<string>(profile.firstName ?? '');
@@ -34,7 +34,7 @@ export function ProfileForm({ profile, searchParams }: { profile: userProfile; s
         <Label htmlFor="role">Role</Label>
         <Input name="role" placeholder="e.g. Frontend Developer" value={role} onChange={(e) => setRole(e.target.value)} />
       </div>
-      <div className="mt-6 flex justify-between gap-6">
+      <div className="flex justify-between gap-6">
         <FormMessage message={searchParams} />
         <SubmitButton className="w-fit" formAction={updateProfileAction}>
           Update profile

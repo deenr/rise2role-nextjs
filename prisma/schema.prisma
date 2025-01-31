@@ -73,6 +73,7 @@ model jobApplication {
 model sharedBoardLink {
   id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   linkToken       String          @unique @map("link_token")
+  enabled         Boolean         
   createdAt       DateTime        @default(now()) @map("created_at")
   kanbanBoardId   String          @db.Uuid @unique @map("kanban_board_id")
   kanbanBoard     kanbanBoard     @relation(fields: [kanbanBoardId], references: [id])

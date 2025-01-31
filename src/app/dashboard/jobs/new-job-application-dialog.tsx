@@ -17,20 +17,22 @@ import { createJobApplication } from '../kanban/actions';
 const companySizes = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 const workModels = ['Remote', 'Hybrid', 'On-site'];
 
+const emptyJobApplicationData = {
+  categoryId: '',
+  jobTitle: '',
+  companyName: '',
+  companySize: null,
+  companyIndustry: null,
+  location: null,
+  workModel: null,
+  skills: [],
+  jobUrl: ''
+};
+
 export function NewJobApplicationDialog({ categories }: { categories: jobCategory[] }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [data, setData] = useState<JobApplication>({
-    categoryId: '',
-    jobTitle: '',
-    companyName: '',
-    companySize: null,
-    companyIndustry: null,
-    location: null,
-    workModel: null,
-    skills: [],
-    jobUrl: ''
-  });
+  const [data, setData] = useState<JobApplication>(emptyJobApplicationData);
 
   const handleChange = (field: keyof JobApplication, value: string) => {
     setData((prev) => ({
@@ -39,8 +41,17 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
     }));
   };
 
+  console.log('hi');
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        console.log(open);
+        if (!open) setData(emptyJobApplicationData);
+      }}
+    >
       <DialogTrigger asChild>
         <Button className="w-fit">
           <Plus />
