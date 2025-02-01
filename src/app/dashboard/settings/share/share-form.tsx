@@ -18,7 +18,7 @@ export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: strin
   const [message, setMessage] = useState<Message | null>(null);
 
   const handleCopy = () => {
-    const fullUrl = `https://rise2role.xyz/board/${uniquePath}`;
+    const fullUrl = `https://r2r.deanreymen.be/board/${uniquePath}`;
     try {
       navigator.clipboard.writeText(fullUrl);
       setCopied(true);
@@ -47,7 +47,9 @@ export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: strin
       <div className="grid gap-2">
         <Label htmlFor="urlToken">Public URL</Label>
         <div className="relative flex flex-row shadow-sm">
-          <span className={cn('flex h-9 items-center rounded-l-md border border-r-0 py-1 pl-3 pr-2 text-muted-foreground md:text-sm', isSharedEnabled ? '' : 'opacity-50')}>rise2role.xyz/board/</span>
+          <span className={cn('flex h-9 items-center rounded-l-md border border-r-0 py-1 pl-3 pr-2 text-muted-foreground md:text-sm', isSharedEnabled ? '' : 'opacity-50')}>
+            r2r.deanreymen.be/board/
+          </span>
           <Input
             className="rounded-l-none pl-2 shadow-none"
             name="urlToken"

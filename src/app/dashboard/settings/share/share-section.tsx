@@ -31,7 +31,7 @@ export async function ShareSection() {
               <div className="grid gap-2">
                 <Label>Public URL</Label>
                 <div className="relative flex flex-row shadow-sm">
-                  <span className="flex h-9 items-center rounded-l-md border border-r-0 py-1 pl-3 pr-2 text-muted-foreground md:text-sm">rise2role.xyz/board/</span>
+                  <span className="flex h-9 items-center rounded-l-md border border-r-0 py-1 pl-3 pr-2 text-muted-foreground md:text-sm">r2r.deanreymen.be/board/</span>
                   <Input className="rounded-l-none pl-2 shadow-none" placeholder="2ed0b87e" />
                 </div>
               </div>
