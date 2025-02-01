@@ -88,7 +88,7 @@ export default function CookiesPage() {
           <div className="space-y-4">
             <p className="text-base text-muted-foreground">
               Contact our DPO:{' '}
-              <a href="mailto:dpo@rise2role.com" className="text-primary hover:underline">
+              <a href="mailto:reymen@outlook.be" className="text-primary hover:underline">
                 dpo@rise2role.com
               </a>
             </p>

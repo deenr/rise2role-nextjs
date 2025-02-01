@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p>
                 To exercise these rights, contact us at{' '}
-                <a href="mailto:support@rise2role.com" className="text-primary hover:underline">
+                <a href="mailto:reymen@outlook.be" className="text-primary hover:underline">
                   support@rise2role.com
                 </a>
                 .
@@ -137,7 +137,7 @@ export default function PrivacyPolicyPage() {
               Data Controller: Rise2Role
               <br />
               Email:{' '}
-              <a href="mailto:support@rise2role.com" className="text-primary hover:underline">
+              <a href="mailto:reymen@outlook.be" className="text-primary hover:underline">
                 support@rise2role.com
               </a>
               <br />

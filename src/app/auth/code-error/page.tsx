@@ -31,8 +31,8 @@ export default function AuthCodeErrorPage() {
               </div>
               <p className="text-center text-sm text-muted-foreground">
                 Need help?{' '}
-                <a href="mailto:support@rise2role.com" className="text-primary hover:underline">
-                  Contact Support
+                <a href="mailto:reymen@outlook.be" className="text-primary hover:underline">
+                  support@rise2role.com
                 </a>
               </p>
             </div>

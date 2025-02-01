@@ -71,11 +71,9 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-semibold text-foreground md:text-3xl">Contact</h2>
             <p>
               For questions:{' '}
-              <a href="mailto:support@rise2role.com" className="text-primary hover:underline">
+              <a href="mailto:reymen@outlook.be" className="text-primary hover:underline">
                 support@rise2role.com
               </a>
-              <br />
-              Physical address: [Your Company Address]
             </p>
           </div>
         </div>
