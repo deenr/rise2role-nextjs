@@ -61,10 +61,7 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
       }}
     >
       <DialogTrigger asChild>
-        <Button className="w-fit">
-          <Plus />
-          Add application
-        </Button>
+        <Plus className="absolute right-0 top-1/2 aspect-square size-10 -translate-y-1/2 cursor-pointer p-2.5 text-muted-foreground hover:text-card-foreground" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <DialogTitle>Add new job application</DialogTitle>
