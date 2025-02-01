@@ -1,11 +1,8 @@
-'use client';
-
 import * as React from 'react';
 
 import { signOutAction } from '@/app/dashboard/actions';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { Files, Kanban, Tags } from 'lucide-react';
 import { NavUserMobile } from './nav-user-mobile';
 import { Rise2RoleLogo } from './rise2role-logo';
@@ -37,8 +34,6 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const isMobile = useIsMobile();
-
   return (
     <Sidebar {...props}>
       <SidebarHeader className="flex h-16 justify-center border-b px-5">
@@ -49,15 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter className="gap-4 p-4 pb-6">
         <SidebarCta />
-        {isMobile && (
-          <NavUserMobile
-            user={{
-              name: 'Dean Reymen',
-              email: 'dean@reymen.be'
-            }}
-            logout={signOutAction}
-          />
-        )}
+        <NavUserMobile className="block md:hidden" logout={signOutAction} />
       </SidebarFooter>
     </Sidebar>
   );

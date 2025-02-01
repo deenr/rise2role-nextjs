@@ -1,5 +1,3 @@
-'use client';
-
 import { signOutAction } from '@/app/dashboard/actions';
 import { CommandPanel } from '@/components/command-panel';
 import { NavUserDesktop } from '@/components/nav-user-desktop';
@@ -26,14 +24,7 @@ export function NavHeader() {
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary" />
         </Button> */}
       </div>
-      <NavUserDesktop
-        className="hidden md:block"
-        user={{
-          name: 'Dean Reymen',
-          email: 'dean@reymen.be'
-        }}
-        logout={signOutAction}
-      />
+      <NavUserDesktop className="hidden md:block" logout={signOutAction} />
       <Rise2RoleLogo className="block h-6 min-h-6 w-[170px] md:hidden" />
       <SidebarTrigger className="ml-auto block md:hidden" />
     </header>
