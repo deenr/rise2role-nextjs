@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { encodedRedirect } from '@/utils/utils';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString();
@@ -28,4 +29,31 @@ export const signUpAction = async (formData: FormData) => {
   } else {
     return encodedRedirect('success', '/sign-up', 'Thanks for signing up! Please check your email for a verification link.');
   }
+};
+
+export const signUpWithGoogleAction = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_API_URL}/auth/callback`
+    }
+  });
+
+  if (error) {
+    console.error('Google sign-in error:', error);
+    return encodedRedirect('error', '/sign-up', error.message);
+  }
+
+  if (!data) {
+    console.error('Google sign-in failed: No data returned');
+    return encodedRedirect('error', '/sign-up', 'Authentication failed');
+  }
+
+  if (data.url) {
+    return redirect(data.url);
+  }
+
+  return encodedRedirect('error', '/sign-up', 'Authentication failed');
 };
