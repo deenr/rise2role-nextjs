@@ -11,10 +11,11 @@ import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
 import { updateSharedBoardAction } from '../actions';
 
-export function ShareForm({ kanbanBoardId, sharedBoard, searchParams }: { kanbanBoardId: string; sharedBoard: sharedBoardLink | null; searchParams: Message }) {
+export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: string; sharedBoard: sharedBoardLink | null }) {
   const [uniquePath, setUniquePath] = useState(sharedBoard?.linkToken ?? '');
   const [isSharedEnabled, setIsSharingEnabled] = useState(sharedBoard?.enabled ?? false);
   const [copied, setCopied] = useState(false);
+  const [message, setMessage] = useState<Message | null>(null);
 
   const handleCopy = () => {
     const fullUrl = `https://rise2role.xyz/board/${uniquePath}`;
@@ -27,8 +28,16 @@ export function ShareForm({ kanbanBoardId, sharedBoard, searchParams }: { kanban
     }
   };
 
+  async function handleUpdateSharedBoard(formData: FormData) {
+    try {
+      await updateSharedBoardAction(formData);
+    } catch (error: any) {
+      setMessage({ error: error.message });
+    }
+  }
+
   return (
-    <form className="grid w-full max-w-lg gap-6">
+    <form className="grid w-full max-w-lg gap-6" action={handleUpdateSharedBoard}>
       <input type="hidden" name="kanbanBoardId" value={kanbanBoardId} readOnly />
       <div className="flex flex-row items-center gap-2">
         <Switch id="sharingEnabled" checked={isSharedEnabled} onCheckedChange={setIsSharingEnabled} />
@@ -55,9 +64,9 @@ export function ShareForm({ kanbanBoardId, sharedBoard, searchParams }: { kanban
           )}
         </div>
       </div>
-      <div className="flex justify-between gap-6">
-        <FormMessage message={searchParams} />
-        <SubmitButton className="w-fit" formAction={updateSharedBoardAction}>
+      <div className="flex gap-6">
+        {message && <FormMessage message={message} />}
+        <SubmitButton className="ml-auto w-fit" type="submit">
           Update share settings
         </SubmitButton>
       </div>

@@ -1,11 +1,24 @@
+'use client';
+
 import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/submit-button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useState } from 'react';
 import { resetPasswordAction } from './actions';
 
-export function ResetPasswordForm({ searchParams }: { searchParams: Message }) {
+export function ResetPasswordForm() {
+  const [message, setMessage] = useState<Message | null>(null);
+
+  async function handleResetPassword(formData: FormData) {
+    try {
+      await resetPasswordAction(formData);
+    } catch (error: any) {
+      setMessage({ error: error.message });
+    }
+  }
+
   return (
     <section className="mt-8 flex max-w-lg flex-col gap-6">
       <header>
@@ -13,8 +26,8 @@ export function ResetPasswordForm({ searchParams }: { searchParams: Message }) {
         <p className="text-base text-muted-foreground">Please enter your new password below.</p>
       </header>
       <Card>
-        <form>
-          <CardContent className="grid w-full max-w-lg gap-6 pt-6">
+        <form className="grid w-full max-w-lg gap-6" action={handleResetPassword}>
+          <CardContent className="grid w-full max-w-lg gap-6 pb-0 pt-6">
             <div className="grid gap-2">
               <Label htmlFor="password">New password</Label>
               <Input name="password" type="password" placeholder="New password" required />
@@ -24,9 +37,9 @@ export function ResetPasswordForm({ searchParams }: { searchParams: Message }) {
               <Input name="confirmPassword" type="password" placeholder="Confirm password" required />
             </div>
           </CardContent>
-          <CardFooter className="flex justify-between gap-6">
-            <FormMessage message={searchParams} />
-            <SubmitButton className="w-fit" formAction={resetPasswordAction}>
+          <CardFooter className="flex gap-6">
+            {message && <FormMessage message={message} />}
+            <SubmitButton className="ml-auto w-fit" type="submit">
               Reset password
             </SubmitButton>
           </CardFooter>

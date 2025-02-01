@@ -1,4 +1,3 @@
-import { Message } from '@/components/form-message';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +9,7 @@ import { getCurrentUser } from '@/lib/session';
 import Link from 'next/link';
 import { ShareForm } from './share-form';
 
-export async function ShareSection({ searchParams }: { searchParams: Message }) {
+export async function ShareSection() {
   const user = await getCurrentUser();
 
   const kanbanBoard = await getKanbanBoard(user);
@@ -66,7 +65,7 @@ export async function ShareSection({ searchParams }: { searchParams: Message }) 
       </header>
       <Card>
         <CardContent className="pt-6">
-          <ShareForm kanbanBoardId={kanbanBoard.id} sharedBoard={sharedBoard ?? null} searchParams={searchParams} />
+          <ShareForm kanbanBoardId={kanbanBoard.id} sharedBoard={sharedBoard ?? null} />
         </CardContent>
       </Card>
     </section>

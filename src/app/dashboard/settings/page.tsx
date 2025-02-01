@@ -1,4 +1,3 @@
-import { Message } from '@/components/form-message';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Suspense } from 'react';
 import { ProfileSection } from './profile/profile-section';
@@ -7,7 +6,7 @@ import { ResetPasswordForm } from './reset-password-form';
 import { ShareSection } from './share/share-section';
 import { ShareSectionSkeleton } from './share/share-section-skeleton';
 
-export default async function DashboardSettingsPage({ searchParams: searchParamsPromise }: { searchParams: Promise<{ tab: 'profile' | 'share' | 'reset-password' } & Message> }) {
+export default async function DashboardSettingsPage({ searchParams: searchParamsPromise }: { searchParams: Promise<{ tab: 'profile' | 'share' | 'reset-password' }> }) {
   const params = await searchParamsPromise;
   const defaultTab = params.tab ?? 'profile';
 
@@ -22,16 +21,16 @@ export default async function DashboardSettingsPage({ searchParams: searchParams
         </TabsList>
         <TabsContent value="profile">
           <Suspense fallback={<ProfileSectionSkeleton />}>
-            <ProfileSection searchParams={params} />
+            <ProfileSection />
           </Suspense>
         </TabsContent>
         <TabsContent value="share">
           <Suspense fallback={<ShareSectionSkeleton />}>
-            <ShareSection searchParams={params} />
+            <ShareSection />
           </Suspense>
         </TabsContent>
         <TabsContent value="reset-password">
-          <ResetPasswordForm searchParams={params} />
+          <ResetPasswordForm />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,10 +1,9 @@
-import { Message } from '@/components/form-message';
 import { Card, CardContent } from '@/components/ui/card';
 import { getUserProfile } from '@/data-access/user-profile';
 import { getCurrentUser } from '@/lib/session';
 import { ProfileForm } from './profile-form';
 
-export async function ProfileSection({ searchParams }: { searchParams: Message }) {
+export async function ProfileSection() {
   const user = await getCurrentUser();
   const userProfile = await getUserProfile(user);
 
@@ -16,7 +15,7 @@ export async function ProfileSection({ searchParams }: { searchParams: Message }
       </header>
       <Card>
         <CardContent className="pt-6">
-          <ProfileForm profile={userProfile!} searchParams={searchParams} />
+          <ProfileForm profile={userProfile!} />
         </CardContent>
       </Card>
     </section>

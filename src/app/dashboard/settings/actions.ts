@@ -2,7 +2,6 @@
 
 import { prisma } from '@/lib/prisma';
 import { createClient } from '@/utils/supabase/server';
-import { encodedRedirect } from '@/utils/utils';
 
 export const updateProfileAction = async (formData: FormData) => {
   const id = formData.get('id') as string;
@@ -11,13 +10,13 @@ export const updateProfileAction = async (formData: FormData) => {
   const role = formData.get('role') as string;
 
   if (!firstName) {
-    encodedRedirect('error', '/dashboard/settings?tab=profile', 'First name is required');
+    throw new Error('First name is required');
   }
   if (!lastName) {
-    encodedRedirect('error', '/dashboard/settings?tab=profile', 'Last name is required');
+    throw new Error('Last name is required');
   }
   if (!role) {
-    encodedRedirect('error', '/dashboard/settings?tab=profile', 'Role is required');
+    throw new Error('Role is required');
   }
 
   try {
@@ -36,10 +35,10 @@ export const updateSharedBoardAction = async (formData: FormData) => {
   const kanbanBoardId = formData.get('kanbanBoardId') as string;
 
   if (!urlToken && enabled) {
-    encodedRedirect('error', '/dashboard/settings?tab=share', 'URL is required when sharing is enabled');
+    throw new Error('URL is required when sharing is enabled');
   }
   if (!kanbanBoardId) {
-    encodedRedirect('error', '/dashboard/settings?tab=share', 'Unable to update, try again later');
+    throw new Error('Unable to update, try again later');
   }
 
   try {
@@ -68,11 +67,11 @@ export const resetPasswordAction = async (formData: FormData) => {
   const confirmPassword = formData.get('confirmPassword') as string;
 
   if (!password || !confirmPassword) {
-    encodedRedirect('error', '/dashboard/settings?tab=reset-password', 'Password and confirm password are required');
+    throw new Error('Password and confirm password are required');
   }
 
   if (password !== confirmPassword) {
-    encodedRedirect('error', '/dashboard/settings?tab=reset-password', 'Passwords do not match');
+    throw new Error('Passwords do not match');
   }
 
   const { error } = await supabase.auth.updateUser({
@@ -80,8 +79,8 @@ export const resetPasswordAction = async (formData: FormData) => {
   });
 
   if (error) {
-    encodedRedirect('error', '/dashboard?tab=reset-password', 'Password update failed');
+    throw new Error('Password update failed');
   }
 
-  encodedRedirect('success', '/dashboard?tab=reset-password', 'Password updated');
+  return 'Password updated successfully';
 };
