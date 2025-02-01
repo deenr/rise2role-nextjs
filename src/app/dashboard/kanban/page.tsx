@@ -19,7 +19,7 @@ export default async function KanbanPage() {
             <p className="text-base text-muted-foreground">Click the button down below to get started.</p>
           </header>
           <section className="mt-8 flex max-w-lg flex-col gap-6">
-            <Link href={'/dashboard/categories'}>
+            <Link href={'categories'}>
               <Button variant="outline">Click here to add your first category</Button>
             </Link>
           </section>
