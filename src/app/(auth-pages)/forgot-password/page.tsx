@@ -15,9 +15,9 @@ export default async function ForgotPassword(props: { searchParams: Promise<Mess
     <div className="grid min-h-svh w-full">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
+          <Link href={'/'}>
             <Rise2RoleLogo className="h-6 min-h-6 w-[170px]" />
-          </a>
+          </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">

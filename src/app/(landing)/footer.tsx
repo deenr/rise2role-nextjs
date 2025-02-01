@@ -1,5 +1,6 @@
 import { Rise2RoleLogo } from '@/components/rise2role-logo';
 import { HeartHandshake } from 'lucide-react';
+import Link from 'next/link';
 
 export function Footer() {
   const links = [
@@ -28,7 +29,9 @@ export function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:gap-8 md:gap-12">
         <div className="flex flex-col justify-between gap-12 sm:flex-row md:gap-16">
           <div className="flex flex-col gap-6 md:gap-8">
-            <Rise2RoleLogo className="h-6 min-h-6 w-[170px]" />
+            <Link href={'/'}>
+              <Rise2RoleLogo className="h-6 min-h-6 w-[170px]" />
+            </Link>
             <p className="text-base font-normal text-muted-foreground">Stay organized. Stay focused. Get hired.</p>
           </div>
           <div className="grid grid-cols-2 flex-row gap-8 sm:flex">
