@@ -14,7 +14,7 @@ export async function KanbanColumn({ category, categories }: { category: jobCate
         <Badge className="ml-2 px-1.5" style={{ backgroundColor: category.hexColor }}>
           {jobApplications.length}
         </Badge>
-        <NewJobApplicationDialog categoryId={category.id} categories={categories} />
+        <NewJobApplicationDialog categories={categories} />
       </header>
       <section className="flex flex-1 flex-col gap-2 rounded-lg border bg-muted p-2">
         {jobApplications.map((jobApplication) => (

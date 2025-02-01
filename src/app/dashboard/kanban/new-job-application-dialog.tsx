@@ -1,7 +1,9 @@
 'use client';
 
 import { ChipsInput } from '@/components/chips-input';
+import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/submit-button';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,20 +18,22 @@ import { createJobApplication } from './actions';
 const companySizes = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 const workModels = ['Remote', 'Hybrid', 'On-site'];
 
-export function NewJobApplicationDialog({ categoryId, categories }: { categoryId: string; categories: jobCategory[] }) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const emptyJobApplicationData = {
+  categoryId: '',
+  jobTitle: '',
+  companyName: '',
+  companySize: null,
+  companyIndustry: null,
+  location: null,
+  workModel: null,
+  skills: [],
+  jobUrl: ''
+};
 
-  const [data, setData] = useState<JobApplication>({
-    categoryId,
-    jobTitle: '',
-    companyName: '',
-    companySize: null,
-    companyIndustry: null,
-    location: null,
-    workModel: null,
-    skills: [],
-    jobUrl: ''
-  });
+export function NewJobApplicationDialog({ categories }: { categories: jobCategory[] }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [data, setData] = useState<JobApplication>(emptyJobApplicationData);
+  const [message, setMessage] = useState<Message | null>(null);
 
   const handleChange = (field: keyof JobApplication, value: string) => {
     setData((prev) => ({
@@ -38,20 +42,34 @@ export function NewJobApplicationDialog({ categoryId, categories }: { categoryId
     }));
   };
 
+  async function handleCreateJobApplication(formData: FormData) {
+    try {
+      await createJobApplication(formData);
+      setIsOpen(false);
+    } catch (error: any) {
+      setMessage({ error: error.message });
+    }
+  }
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        console.log(open);
+        if (!open) setData(emptyJobApplicationData);
+      }}
+    >
       <DialogTrigger asChild>
-        <Plus className="absolute right-0 top-1/2 aspect-square size-10 -translate-y-1/2 cursor-pointer p-2.5 text-muted-foreground hover:text-card-foreground" />
+        <Button className="w-fit">
+          <Plus />
+          Add application
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <DialogTitle>Add new job application</DialogTitle>
         <Description className="sr-only">The form to create a new job application.</Description>
-        <form
-          action={async (formData) => {
-            await createJobApplication(formData);
-            setIsOpen(false);
-          }}
-        >
+        <form action={handleCreateJobApplication}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="jobCategory">Job Category</Label>
@@ -136,8 +154,14 @@ export function NewJobApplicationDialog({ categoryId, categories }: { categoryId
             </div>
           </div>
 
-          <DialogFooter>
-            <SubmitButton type="submit">Add application</SubmitButton>
+          <DialogFooter className="mt-6 flex w-full items-center gap-3">
+            {message && <FormMessage className="w-full" message={message} />}
+            <Button className="ml-auto w-full sm:w-fit" variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <SubmitButton className="w-full sm:w-fit" type="submit">
+              Add application
+            </SubmitButton>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -1,6 +1,7 @@
 'use client';
 
 import { GradientPicker } from '@/components/color-picker';
+import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -14,6 +15,16 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
   const [isOpen, setIsOpen] = useState(false);
   const [newName, setNewName] = useState(name);
   const [newColor, setNewColor] = useState(color);
+  const [message, setMessage] = useState<Message | null>(null);
+
+  async function handleUpdateCategory(formData: FormData) {
+    try {
+      await updateCategory(formData);
+      setIsOpen(false);
+    } catch (error: any) {
+      setMessage({ error: error.message });
+    }
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -26,12 +37,7 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>
-        <form
-          action={async (formData) => {
-            await updateCategory(formData);
-            setIsOpen(false);
-          }}
-        >
+        <form action={handleUpdateCategory}>
           <input type="hidden" name="id" value={id} />
           <input type="hidden" name="color" value={newColor} />
           <div className="flex flex-row gap-4">
@@ -44,7 +50,8 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
               <Input name="name" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Category name" required />
             </div>
           </div>
-          <DialogFooter className="mt-6 flex w-full justify-end gap-3">
+          <DialogFooter className="mt-6 flex w-full items-center gap-3">
+            {message && <FormMessage className="w-full" message={message} />}
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>

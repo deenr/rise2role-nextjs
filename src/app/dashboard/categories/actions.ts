@@ -29,8 +29,14 @@ export async function createCategory(formData: FormData) {
   const name = formData.get('name') as string;
   const color = formData.get('color') as string;
 
-  if (!order || !name || !color) {
-    throw new Error('Missing order, name or color');
+  if (!order) {
+    throw new Error('Missing order');
+  }
+  if (!name) {
+    throw new Error('Name is required');
+  }
+  if (!color) {
+    throw new Error('Color is required');
   }
 
   try {
