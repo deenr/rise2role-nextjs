@@ -3,7 +3,7 @@ import * as React from 'react';
 import { signOutAction } from '@/app/dashboard/actions';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
-import { Files, Kanban, Tags } from 'lucide-react';
+import { Kanban, Tags } from 'lucide-react';
 import { NavUserMobile } from './nav-user-mobile';
 import { Rise2RoleLogo } from './rise2role-logo';
 import { SidebarCta } from './sidebar-opt-in-form';
@@ -19,11 +19,6 @@ const data = {
       title: 'Kanban Board',
       url: '/dashboard/kanban',
       icon: <Kanban />
-    },
-    {
-      title: 'Job Applications',
-      url: '/dashboard/jobs',
-      icon: <Files />
     },
     {
       title: 'Categories',

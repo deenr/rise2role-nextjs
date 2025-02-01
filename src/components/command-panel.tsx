@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/ui/command';
-import { Files, Kanban, Search, Share2, Tags, User } from 'lucide-react';
+import { Kanban, Search, Share2, Tags, User } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -39,12 +39,6 @@ export function CommandPanel() {
               <CommandItem>
                 <Kanban />
                 <span>Kanban board</span>
-              </CommandItem>
-            </Link>
-            <Link href="/dashboard/jobs" onClick={() => setOpen(false)}>
-              <CommandItem>
-                <Files />
-                <span>Job applications</span>
               </CommandItem>
             </Link>
             <Link href="/dashboard/categories" onClick={() => setOpen(false)}>
