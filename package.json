@@ -1,4 +1,19 @@
 {
+  "name": "rise2role",
+  "version": "1.0.0",
+  "description": "A simple way to organize your job applications.",
+  "keywords": [
+    "job applications",
+    "kanban",
+    "job search",
+    "productivity"
+  ],
+  "author": "Dean Reymen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deenr/rise2role.git"
+  },
+  "homepage": "https://r2r.deanreymen.be",
   "private": true,
   "scripts": {
     "dev": "next dev",
