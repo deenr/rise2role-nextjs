@@ -87,11 +87,11 @@ export async function deleteJobApplication(formData: FormData) {
   const id = formData.get('id') as string;
 
   try {
-    await prisma.jobCategory.delete({
+    await prisma.jobApplication.delete({
       where: { id }
     });
 
-    revalidatePath('/dashboard/kanban');
+    revalidatePath('/dashboard/kanban', 'page');
   } catch (error) {
     throw new Error('Failed to delete job application');
   }
