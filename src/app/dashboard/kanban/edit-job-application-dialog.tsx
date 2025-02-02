@@ -5,19 +5,16 @@ import { FormMessage, Message } from '@/components/form-message';
 import { SubmitButton } from '@/components/submit-button';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { JobApplication } from '@/types/job-application';
-import { jobCategory } from '@prisma/client';
-import { Description } from '@radix-ui/react-dialog';
-import { Plus } from 'lucide-react';
+import { jobApplication, jobCategory } from '@prisma/client';
+import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { createJobApplication } from './actions';
-
-const companySizes = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
-const workModels = ['Remote', 'Hybrid', 'On-site'];
+import { updateJobApplication } from './actions'; // Assume this function exists to handle updates
 
 const emptyJobApplicationData = {
   categoryId: '',
@@ -31,9 +28,12 @@ const emptyJobApplicationData = {
   jobUrl: ''
 };
 
-export function NewJobApplicationDialog({ categories }: { categories: jobCategory[] }) {
+const companySizes = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
+const workModels = ['Remote', 'Hybrid', 'On-site'];
+
+export function EditJobApplicationDialog({ jobApplication, categories, onDialogClose }: { jobApplication: jobApplication; categories: jobCategory[]; onDialogClose: () => void }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [data, setData] = useState<JobApplication>(emptyJobApplicationData);
+  const [data, setData] = useState<JobApplication>({ ...emptyJobApplicationData, ...jobApplication });
   const [message, setMessage] = useState<Message | null>(null);
 
   const handleChange = (field: keyof JobApplication, value: string) => {
@@ -43,33 +43,37 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
     }));
   };
 
-  async function handleCreateJobApplication(formData: FormData) {
+  async function handleUpdateJobApplication(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); // Prevent the default form submission
     try {
-      await createJobApplication(formData);
-      setIsOpen(false);
-      toast.success('Job application added successfully', {});
+      const updatedData = { ...data, id: jobApplication.id, kanbanBoardId: jobApplication.kanbanBoardId };
+      await updateJobApplication(updatedData);
+      toast.success('Job application updated successfully');
+
+      onOpenChange(false);
     } catch (error: any) {
-      setMessage({ error: error.message });
+      setMessage(error.message);
       toast.error(error.message);
     }
   }
 
+  function onOpenChange(open: boolean) {
+    setIsOpen(open);
+
+    if (!open) onDialogClose();
+  }
+
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={(open) => {
-        setIsOpen(open);
-        console.log(open);
-        if (!open) setData(emptyJobApplicationData);
-      }}
-    >
+    <Dialog open={isOpen} onOpenChange={(open) => onOpenChange(open)}>
       <DialogTrigger asChild>
-        <Plus className="absolute right-0 top-1/2 aspect-square size-10 -translate-y-1/2 cursor-pointer p-2.5 text-muted-foreground hover:text-card-foreground" />
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <Pencil />
+          <span>Edit application</span>
+        </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
-        <DialogTitle>Add new job application</DialogTitle>
-        <Description className="sr-only">The form to create a new job application.</Description>
-        <form action={handleCreateJobApplication}>
+        <DialogTitle>Edit Job Application</DialogTitle>
+        <form onSubmit={handleUpdateJobApplication}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="jobCategory">Job Category</Label>
@@ -155,12 +159,12 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
           </div>
 
           <DialogFooter className="mt-6 flex w-full items-center gap-3">
-            {message && <FormMessage className="w-full" message={message} />}
-            <Button className="ml-auto w-full sm:w-fit" variant="outline" onClick={() => setIsOpen(false)}>
+            {message && <FormMessage className="w-full" message={message} />} {/* Display error message */}
+            <Button className="ml-auto w-full sm:w-fit" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
             <SubmitButton className="w-full sm:w-fit" type="submit">
-              Add application
+              Edit application
             </SubmitButton>
           </DialogFooter>
         </form>

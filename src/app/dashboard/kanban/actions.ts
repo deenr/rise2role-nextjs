@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { jobApplicationSchema } from '@/types/job-application';
+import { jobApplication } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
 export async function createJobApplication(formData: FormData) {
@@ -50,5 +51,48 @@ export async function createJobApplication(formData: FormData) {
     revalidatePath('/dashboard/kanban');
   } catch (error) {
     throw new Error('Failed to create job application');
+  }
+}
+
+export async function updateJobApplication(data: jobApplication) {
+  const parsedData = jobApplicationSchema.safeParse(data);
+
+  if (!parsedData.success) {
+    throw new Error('Invalid data provided: ' + parsedData.error.message);
+  }
+
+  try {
+    await prisma.jobApplication.update({
+      where: { id: data.id }, // Ensure you have the ID in the data
+      data: {
+        categoryId: parsedData.data.categoryId,
+        jobTitle: parsedData.data.jobTitle,
+        companyName: parsedData.data.companyName,
+        companySize: parsedData.data.companySize,
+        companyIndustry: parsedData.data.companyIndustry,
+        location: parsedData.data.location,
+        workModel: parsedData.data.workModel,
+        skills: parsedData.data.skills,
+        jobUrl: parsedData.data.jobUrl
+      }
+    });
+
+    revalidatePath('/dashboard/kanban');
+  } catch (error) {
+    throw new Error('Failed to update job application');
+  }
+}
+
+export async function deleteJobApplication(formData: FormData) {
+  const id = formData.get('id') as string;
+
+  try {
+    await prisma.jobCategory.delete({
+      where: { id }
+    });
+
+    revalidatePath('/dashboard/kanban');
+  } catch (error) {
+    throw new Error('Failed to delete job application');
   }
 }

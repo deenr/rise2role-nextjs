@@ -18,7 +18,7 @@ export async function KanbanColumn({ category, categories }: { category: jobCate
       </header>
       <section className="flex flex-1 flex-col gap-2 rounded-lg border bg-muted p-2">
         {jobApplications.map((jobApplication) => (
-          <KanbanCard key={jobApplication.id} color={category.hexColor} {...jobApplication} />
+          <KanbanCard key={jobApplication.id} color={category.hexColor} jobApplication={jobApplication} categories={categories} />
         ))}
       </section>
     </div>
