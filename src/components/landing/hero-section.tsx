@@ -165,7 +165,7 @@ function KanbanBoardDemo({ className, ...props }: React.ComponentPropsWithoutRef
           </motion.div>
           <motion.div className="w-full" animate={controls} style={{ x, y, scale }}>
             <Card className="group relative overflow-hidden rounded-md">
-              <div className="absolute left-0 h-full w-1 opacity-20 transition-colors group-hover:opacity-100" style={{ backgroundColor: '#0284c7' }} />
+              <div className="absolute left-0 h-full w-1 opacity-20 transition-colors group-hover:opacity-100" style={{ backgroundColor: isInInterview ? '#f97316' : '#0284c7' }} />
               <CardHeader className="p-4 pb-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1">
