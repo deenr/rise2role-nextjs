@@ -55,10 +55,10 @@ export async function deleteCategory(formData: FormData) {
   const id = formData.get('id') as string;
 
   try {
-    const value = await prisma.jobCategory.delete({
+    await prisma.jobCategory.delete({
       where: { id }
     });
-    console.log(value);
+
     revalidatePath('/dashboard/categories');
     revalidatePath('/dashboard/kanban');
   } catch (error) {
@@ -67,7 +67,7 @@ export async function deleteCategory(formData: FormData) {
         throw new Error('Category can only be removed if no jobs are still linked to it.');
       }
     }
-    console.error(error);
+    throw new Error('Failed to delete category');
   }
 }
 

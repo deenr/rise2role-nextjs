@@ -22,7 +22,7 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
     try {
       await updateCategory(formData);
       setIsOpen(false);
-      toast.success('Category updated successfully!');
+      toast.success('Category updated successfully');
     } catch (error: any) {
       setMessage({ error: error.message });
       toast.error(error.message);
