@@ -18,9 +18,8 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [failedCategories, setFailedCategories] = useState<jobCategory[]>([]);
-  const [retryLoading, setRetryLoading] = useState(false); // New state for retry loading
+  const [retryLoading, setRetryLoading] = useState(false);
 
-  // Validate and filter categories
   const validInitialCategories = useMemo(
     () =>
       initialCategories.filter(
@@ -30,35 +29,23 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
   );
 
   const [optimisticCategories, updateOptimisticCategories] = useOptimistic(validInitialCategories);
-
   const activeCategory = useMemo(() => optimisticCategories.find((category) => category.id === active?.id), [active, optimisticCategories]);
 
-  // Set mounted after component mounts
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8
-      }
-    }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-      keyboardCodes: {
-        start: ['Space', 'Enter'],
-        cancel: ['Escape'],
-        end: ['Space', 'Enter']
-      }
+      keyboardCodes: { start: ['Space', 'Enter'], cancel: ['Escape'], end: ['Space', 'Enter'] }
     })
   );
 
-  function onDragStart({ active }: DragStartEvent) {
-    setActive(active);
-  }
+  const onDragStart = ({ active }: DragStartEvent) => setActive(active);
 
-  async function onDragEnd({ active, over }: DragEndEvent) {
+  const onDragEnd = async ({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) {
       setActive(null);
       return;
@@ -66,20 +53,10 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
 
     const activeIndex = optimisticCategories.findIndex(({ id }) => id === active.id);
     const overIndex = optimisticCategories.findIndex(({ id }) => id === over.id);
-
-    // Calculate affected items
-    const affectedIndexes = new Set<number>();
-    const start = Math.min(activeIndex, overIndex);
-    const end = Math.max(activeIndex, overIndex);
-    for (let i = start; i <= end; i++) {
-      affectedIndexes.add(i);
-    }
-
-    const updatedItemIds = new Set(Array.from(affectedIndexes).map((index) => optimisticCategories[index].id));
-    setUpdatedIds(updatedItemIds);
-
     const newCategories = arrayMove(optimisticCategories, activeIndex, overIndex);
+    const updatedItemIds = new Set(newCategories.slice(Math.min(activeIndex, overIndex), Math.max(activeIndex, overIndex) + 1).map(({ id }) => id));
 
+    setUpdatedIds(updatedItemIds);
     startTransition(() => {
       updateOptimisticCategories(newCategories);
       setActive(null);
@@ -90,57 +67,50 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
       await updateCategories(newCategories);
       toast.success('Categories order updated');
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to update categories'));
-      toast.error('Failed to update categories order');
-
+      const errorMessage = err instanceof Error ? err : new Error('Failed to update categories');
+      setError(errorMessage);
+      toast.error(errorMessage.message);
       setFailedCategories(newCategories);
-
-      startTransition(() => {
-        updateOptimisticCategories(validInitialCategories);
-      });
+      startTransition(() => updateOptimisticCategories(validInitialCategories));
     } finally {
       setIsUpdating(false);
       setUpdatedIds(new Set());
     }
-  }
+  };
 
   const handleRetry = async () => {
-    setRetryLoading(true); // Set loading state to true
+    setRetryLoading(true);
     try {
       await updateCategories(failedCategories);
       toast.success('Categories order updated on retry');
-      setFailedCategories([]); // Clear failed categories on success
+      setFailedCategories([]);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to update categories on retry'));
-      toast.error('Failed to update categories order on retry');
+      const errorMessage = err instanceof Error ? err : new Error('Failed to update categories on retry');
+      setError(errorMessage);
+      toast.error(errorMessage.message);
     } finally {
       setError(null);
       setIsUpdating(false);
-      setRetryLoading(false); // Reset loading state
+      setRetryLoading(false);
     }
   };
 
-  if (!mounted) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
       {error && (
         <Card role="alert" className="flex flex-row items-center gap-4 border border-red-300 bg-red-50 p-4 text-red-600">
-          <div className="flex w-8 items-center">
-            <CircleAlert className="mx-auto my-auto size-5" />
-          </div>
+          <CircleAlert className="mx-auto my-auto size-5" />
           <p className="font-medium">{error.message}</p>
           <Button variant="outline" size="sm" className="ml-auto" onClick={handleRetry} disabled={retryLoading}>
-            {retryLoading ? <Loader2 className="animate-spin" /> : null}
-            Retry
+            {retryLoading ? <Loader2 className="animate-spin" /> : null} Retry
           </Button>
         </Card>
       )}
       <div className="space-y-6">
         <SortableContext items={optimisticCategories}>
-          {optimisticCategories?.map((category) => (
+          {optimisticCategories.map((category) => (
             <CategoryCard key={category.id} {...category} dragging={category.id === active?.id} isUpdating={updatedIds.has(category.id)} disabled={isUpdating} />
           ))}
         </SortableContext>
