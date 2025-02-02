@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { updateCategory } from './actions';
 
 export function EditCategoryDialog({ id, name, color }: { id: string; name: string; color: string }) {
@@ -21,8 +22,10 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
     try {
       await updateCategory(formData);
       setIsOpen(false);
+      toast.success('Category updated successfully!');
     } catch (error: any) {
       setMessage({ error: error.message });
+      toast.error(error.message);
     }
   }
 

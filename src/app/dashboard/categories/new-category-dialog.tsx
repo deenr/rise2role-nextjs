@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { createCategory as createCategoryAction } from './actions';
 
 export function NewCategoryDialog({ order }: { order: number }) {
@@ -22,8 +23,10 @@ export function NewCategoryDialog({ order }: { order: number }) {
     try {
       await createCategoryAction(formData);
       setIsOpen(false);
+      toast.success('Category created successfully!');
     } catch (error: any) {
       setMessage({ error: error.message });
+      toast.error(error.message);
     }
   }
 

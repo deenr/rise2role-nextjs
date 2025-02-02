@@ -1,6 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { revalidatePath } from 'next/cache';
 
 export async function updateCategory(formData: FormData) {
@@ -47,5 +48,42 @@ export async function createCategory(formData: FormData) {
     revalidatePath('/dashboard/kanban');
   } catch (error) {
     throw new Error('Failed to update category');
+  }
+}
+
+export async function deleteCategory(formData: FormData) {
+  const id = formData.get('id') as string;
+
+  try {
+    const value = await prisma.jobCategory.delete({
+      where: { id }
+    });
+    console.log(value);
+    revalidatePath('/dashboard/categories');
+    revalidatePath('/dashboard/kanban');
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2003') {
+        throw new Error('Category can only be removed if no jobs are still linked to it.');
+      }
+    }
+    console.error(error);
+  }
+}
+
+export async function updateCategories(categories: { id: string }[]) {
+  try {
+    await prisma.$transaction(
+      categories.map(({ id }, index) =>
+        prisma.jobCategory.update({
+          where: { id },
+          data: { order: index + 1 }
+        })
+      )
+    );
+    revalidatePath('/dashboard/categories');
+    revalidatePath('/dashboard/kanban');
+  } catch (error) {
+    throw new Error('Failed to update categories');
   }
 }
