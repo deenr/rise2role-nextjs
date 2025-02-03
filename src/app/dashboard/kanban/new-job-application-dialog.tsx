@@ -59,7 +59,6 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open);
-        console.log(open);
         if (!open) setData(emptyJobApplicationData);
       }}
     >

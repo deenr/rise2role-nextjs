@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { sharedBoardLink } from '@prisma/client';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { updateSharedBoardAction } from '../actions';
 
 export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: string; sharedBoard: sharedBoardLink | null }) {
@@ -24,7 +25,7 @@ export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: strin
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      toast.error('Failed to copy, try again.');
     }
   };
 

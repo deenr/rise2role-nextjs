@@ -24,7 +24,6 @@ export const signUpAction = async (formData: FormData) => {
   });
 
   if (error) {
-    console.error(error.code + ' ' + error.message);
     return encodedRedirect('error', '/sign-up', error.message);
   } else {
     return encodedRedirect('success', '/sign-up', 'Thanks for signing up! Please check your email for a verification link.');
@@ -42,12 +41,10 @@ export const signUpWithGoogleAction = async () => {
   });
 
   if (error) {
-    console.error('Google sign-in error:', error);
     return encodedRedirect('error', '/sign-up', error.message);
   }
 
   if (!data) {
-    console.error('Google sign-in failed: No data returned');
     return encodedRedirect('error', '/sign-up', 'Authentication failed');
   }
 

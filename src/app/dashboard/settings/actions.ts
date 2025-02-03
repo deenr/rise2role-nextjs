@@ -54,9 +54,7 @@ export const updateSharedBoardAction = async (formData: FormData) => {
         linkToken: urlToken
       }
     });
-    console.log('update complete');
   } catch (error) {
-    console.log(error);
     throw new Error('Failed to update the shared board');
   }
 };

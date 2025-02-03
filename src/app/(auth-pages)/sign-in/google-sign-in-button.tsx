@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { signInWithGoogleAction } from './actions';
 
 export function GoogleSignInButton() {
@@ -8,7 +9,7 @@ export function GoogleSignInButton() {
     try {
       await signInWithGoogleAction();
     } catch (error) {
-      console.error('Google sign-in failed:', error);
+      toast.error('Google sign-in failed.');
     }
   };
 

@@ -32,12 +32,10 @@ export const signInWithGoogleAction = async () => {
   });
 
   if (error) {
-    console.error('Google sign-in error:', error);
     return encodedRedirect('error', '/sign-in', error.message);
   }
 
   if (!data) {
-    console.error('Google sign-in failed: No data returned');
     return encodedRedirect('error', '/sign-in', 'Authentication failed');
   }
 
