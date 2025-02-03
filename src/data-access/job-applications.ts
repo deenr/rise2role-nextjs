@@ -20,7 +20,7 @@ export const getJobApplicationsByKanbanBoard = cache(async (kanbanBoardId: strin
 
 export const getJobApplicationsBySharedBoard = cache(async (sharedBoard: string) => {
   const jobApplicationsWithCategories = await prisma.jobApplication.findMany({
-    where: { kanbanBoard: { sharedLink: { linkToken: sharedBoard } } }
+    where: { kanbanBoard: { sharedLink: { linkToken: sharedBoard, enabled: true } } }
   });
   return jobApplicationsWithCategories;
 });

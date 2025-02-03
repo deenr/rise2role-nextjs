@@ -30,7 +30,7 @@ export const updateProfileAction = async (formData: FormData) => {
 };
 
 export const updateSharedBoardAction = async (formData: FormData) => {
-  const enabled = Boolean(formData.get('sharingEnabled'));
+  const enabled = formData.get('sharingEnabled') === 'true';
   const urlToken = formData.get('urlToken') as string;
   const kanbanBoardId = formData.get('kanbanBoardId') as string;
 
@@ -54,6 +54,7 @@ export const updateSharedBoardAction = async (formData: FormData) => {
         linkToken: urlToken
       }
     });
+    console.log('update complete');
   } catch (error) {
     console.log(error);
     throw new Error('Failed to update the shared board');

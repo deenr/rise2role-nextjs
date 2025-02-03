@@ -29,6 +29,8 @@ export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: strin
   };
 
   async function handleUpdateSharedBoard(formData: FormData) {
+    if (!isSharedEnabled) formData.append('urlToken', uniquePath);
+
     try {
       await updateSharedBoardAction(formData);
     } catch (error: any) {
