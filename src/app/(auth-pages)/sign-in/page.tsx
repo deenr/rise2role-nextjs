@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Lock, Mail } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { signInAction } from './actions';
 import { GoogleSignInButton } from './google-sign-in-button';
@@ -70,7 +71,15 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           </div>
         </div>
       </div>
-      <div className="bg-gradient hidden rounded-l-[72px] lg:block"></div>
+      <div className="relative hidden overflow-hidden bg-muted p-6 md:p-10 lg:block">
+        <Image
+          className="my-auto ml-24 !h-fit rounded-l-xl border shadow-md outline outline-4 outline-primary/20"
+          src={'/dashboard.webp'}
+          alt="A screenshot of the kanban board visible in the Rise2Role dashboard"
+          layout={'fill'}
+          objectFit={'contain'}
+        />
+      </div>
     </div>
   );
 }
