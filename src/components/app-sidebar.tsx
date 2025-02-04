@@ -1,9 +1,12 @@
-import * as React from 'react';
+'use client';
 
 import { signOutAction } from '@/app/dashboard/actions';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
+import { getUserProfile } from '@/data-access/user-profile';
+import { getCurrentUser } from '@/lib/session';
 import { Kanban, Tags } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { NavUserMobile } from './nav-user-mobile';
 import { Rise2RoleLogo } from './rise2role-logo';
 import { SidebarCta } from './sidebar-opt-in-form';
@@ -29,6 +32,22 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [userProfile, setUserProfile] = useState<{
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const user = await getCurrentUser();
+      const profile = await getUserProfile(user);
+      setUserProfile(profile);
+    };
+
+    fetchUserProfile();
+  }, []);
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="flex h-16 justify-center border-b px-5">
@@ -39,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter className="gap-4 p-4 pb-6">
         <SidebarCta />
-        <NavUserMobile className="block md:hidden" logout={signOutAction} />
+        {userProfile && <NavUserMobile className="block md:hidden" logout={signOutAction} userProfile={userProfile} />}
       </SidebarFooter>
     </Sidebar>
   );

@@ -1,3 +1,5 @@
+'use server';
+
 import { prisma } from '@/lib/prisma';
 import { User } from '@supabase/supabase-js';
 import { cache } from 'react';

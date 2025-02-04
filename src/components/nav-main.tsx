@@ -1,6 +1,6 @@
 'use client';
 
-import { SidebarGroup, SidebarMenu, SidebarMenuButton } from '@/components/ui/sidebar';
+import { SidebarGroup, SidebarMenu, SidebarMenuButton, useSidebar } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { JSX } from 'react';
@@ -14,6 +14,7 @@ export function NavMain({
     icon: JSX.Element;
   }[];
 }) {
+  const { setOpenMobile } = useSidebar();
   const pathname = usePathname();
 
   return (
@@ -24,7 +25,7 @@ export function NavMain({
 
           return (
             <SidebarMenuButton isActive={isActive} key={item.title} asChild>
-              <Link href={item.url}>
+              <Link href={item.url} onClick={() => setOpenMobile(false)}>
                 {item.icon}
                 {item.title}
               </Link>
