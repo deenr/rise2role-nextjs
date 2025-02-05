@@ -76,7 +76,7 @@ export function BenefitsSection() {
     <motion.div ref={sectionRef} {...sectionAnimation2}>
       <motion.section {...sectionAnimation} style={isAboveMd ? { scale } : {}} className="px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-12">
         <div className="relative mx-auto flex max-w-7xl flex-col gap-8 md:gap-16">
-          <div className="top-[160px] flex flex-col items-center gap-2 pb-12 md:sticky md:pb-48">
+          <div className="top-[160px] flex flex-col items-center gap-2 pb-12 md:sticky md:pb-[302px]">
             <h2 className="text-xs font-medium text-muted-foreground sm:text-sm">Benefits</h2>
             <p className="flex-1 text-center text-2xl font-semibold sm:text-4xl">Why Use Rise2Role?</p>
           </div>
