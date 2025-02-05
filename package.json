@@ -44,6 +44,7 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
     "@tanstack/react-table": "^8.20.6",
+    "@vercel/analytics": "^1.4.1",
     "autoprefixer": "10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

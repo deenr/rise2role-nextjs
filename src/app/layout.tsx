@@ -1,4 +1,5 @@
 import { Toaster } from '@/components/ui/sonner';
+import { Analytics } from '@vercel/analytics/next';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import './globals.css';
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
