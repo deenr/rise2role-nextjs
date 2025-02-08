@@ -20,7 +20,7 @@ export default async function KanbanPage() {
           </header>
           <section className="mt-8 flex max-w-lg flex-col gap-6">
             <Link href={'categories'}>
-              <Button variant="outline">Click here to add your first category</Button>
+              <Button variant="outline">Click here to navigate to categories to add your first category</Button>
             </Link>
           </section>
         </div>
