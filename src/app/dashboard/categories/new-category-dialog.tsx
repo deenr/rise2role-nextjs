@@ -22,9 +22,11 @@ export function NewCategoryDialog({ order }: { order: number }) {
   async function createCategory(formData: FormData) {
     if (!name) {
       setMessage({ error: 'Name is required' });
+      return;
     }
     if (!color) {
       setMessage({ error: 'Color is required' });
+      return;
     }
     try {
       await createCategoryAction(formData);
