@@ -20,6 +20,12 @@ export function NewCategoryDialog({ order }: { order: number }) {
   const [message, setMessage] = useState<Message | null>(null);
 
   async function createCategory(formData: FormData) {
+    if (!name) {
+      setMessage({ error: 'Name is required' });
+    }
+    if (!color) {
+      setMessage({ error: 'Color is required' });
+    }
     try {
       await createCategoryAction(formData);
       setIsOpen(false);

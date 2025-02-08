@@ -1,6 +1,8 @@
 'use server';
 
+import { AuthenticationError } from '@/data-access/errors';
 import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/session';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { revalidatePath } from 'next/cache';
 
@@ -26,6 +28,12 @@ export async function updateCategory(formData: FormData) {
 }
 
 export async function createCategory(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new AuthenticationError();
+  }
+
   const order = formData.get('order') as string;
   const name = formData.get('name') as string;
   const color = formData.get('color') as string;
@@ -42,7 +50,7 @@ export async function createCategory(formData: FormData) {
 
   try {
     await prisma.jobCategory.create({
-      data: { name, hexColor: color, order: Number(order), userId: '01b09396-e264-441b-b4b3-a59d435b8bfe' }
+      data: { name, hexColor: color, order: Number(order), userId: user.id }
     });
     revalidatePath('/dashboard/categories');
     revalidatePath('/dashboard/kanban');

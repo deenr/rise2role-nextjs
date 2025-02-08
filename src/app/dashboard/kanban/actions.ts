@@ -1,11 +1,20 @@
 'use server';
 
+import { AuthenticationError } from '@/data-access/errors';
+import { getKanbanBoard } from '@/data-access/kanban-board';
 import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/session';
 import { jobApplicationSchema } from '@/types/job-application';
 import { jobApplication } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
 export async function createJobApplication(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new AuthenticationError();
+  }
+
   const categoryId = formData.get('categoryId') as string;
   const jobTitle = formData.get('jobTitle') as string;
   const companyName = formData.get('companyName') as string;
@@ -32,6 +41,12 @@ export async function createJobApplication(formData: FormData) {
     throw new Error('Invalid data provided: ' + parsedData.error.message);
   }
 
+  let kanbanBoard = await getKanbanBoard(user);
+
+  if (!kanbanBoard) {
+    kanbanBoard = await prisma.kanbanBoard.create({ data: { title: 'Kanban board', ownerId: user.id } });
+  }
+
   try {
     await prisma.jobApplication.create({
       data: {
@@ -44,7 +59,7 @@ export async function createJobApplication(formData: FormData) {
         workModel: parsedData.data.workModel,
         skills: parsedData.data.skills,
         jobUrl: parsedData.data.jobUrl,
-        kanbanBoardId: '3fdb76a7-aba6-4ab9-b920-82bd77f26a8a'
+        kanbanBoardId: kanbanBoard.id
       }
     });
 
