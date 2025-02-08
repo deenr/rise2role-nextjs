@@ -44,13 +44,14 @@ export function NewJobApplicationDialog({ categories }: { categories: jobCategor
   };
 
   async function handleCreateJobApplication(formData: FormData) {
-    try {
-      await createJobApplication(formData);
+    const result = await createJobApplication(formData);
+
+    if (result.success) {
       setIsOpen(false);
-      toast.success('Job application added successfully', {});
-    } catch (error: any) {
-      setMessage({ error: error.message });
-      toast.error(error.message);
+      toast.success('Job application added successfully');
+    } else {
+      setMessage({ error: result.error ?? 'Failed to create job application' });
+      toast.error(result.error ?? 'Failed to create job application');
     }
   }
 

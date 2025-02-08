@@ -64,12 +64,17 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
 
     setIsUpdating(true);
     try {
-      await updateCategories(newCategories);
-      toast.success('Categories order updated');
+      const result = await updateCategories(newCategories);
+
+      if (result.success) {
+        toast.success('Categories order updated');
+      } else {
+        throw new Error(result.error || 'Failed to update categories');
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err : new Error('Failed to update categories');
-      setError(errorMessage);
-      toast.error(errorMessage.message);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update categories';
+      setError(new Error(errorMessage));
+      toast.error(errorMessage);
       setFailedCategories(newCategories);
       startTransition(() => updateOptimisticCategories(validInitialCategories));
     } finally {
@@ -81,13 +86,18 @@ export function CategoriesDnd({ categories: initialCategories }: { categories: j
   const handleRetry = async () => {
     setRetryLoading(true);
     try {
-      await updateCategories(failedCategories);
-      toast.success('Categories order updated on retry');
-      setFailedCategories([]);
+      const result = await updateCategories(failedCategories);
+
+      if (result.success) {
+        toast.success('Categories order updated on retry');
+        setFailedCategories([]);
+      } else {
+        throw new Error(result.error || 'Failed to update categories on retry');
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err : new Error('Failed to update categories on retry');
-      setError(errorMessage);
-      toast.error(errorMessage.message);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update categories on retry';
+      setError(new Error(errorMessage));
+      toast.error(errorMessage);
     } finally {
       setError(null);
       setIsUpdating(false);

@@ -45,15 +45,18 @@ export function EditJobApplicationDialog({ jobApplication, categories, onDialogC
 
   async function handleUpdateJobApplication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); // Prevent the default form submission
-    try {
-      const updatedData = { ...data, id: jobApplication.id, kanbanBoardId: jobApplication.kanbanBoardId };
+
+    const updatedData = { ...data, id: jobApplication.id, kanbanBoardId: jobApplication.kanbanBoardId };
+    const result = await updateJobApplication(updatedData);
+
+    if (result.success) {
       await updateJobApplication(updatedData);
       toast.success('Job application updated successfully');
 
       onOpenChange(false);
-    } catch (error: any) {
-      setMessage(error.message);
-      toast.error(error.message);
+    } else {
+      setMessage({ error: result.error ?? 'Failed to update job application' });
+      toast.error(result.error ?? 'Failed to update job application');
     }
   }
 

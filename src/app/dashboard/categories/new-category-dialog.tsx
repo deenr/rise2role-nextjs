@@ -28,13 +28,15 @@ export function NewCategoryDialog({ order }: { order: number }) {
       setMessage({ error: 'Color is required' });
       return;
     }
-    try {
-      await createCategoryAction(formData);
+
+    const result = await createCategoryAction(formData);
+
+    if (result.success) {
       setIsOpen(false);
       toast.success('Category created successfully');
-    } catch (error: any) {
-      setMessage({ error: error.message });
-      toast.error(error.message);
+    } else {
+      setMessage({ error: result.error ?? 'Failed to create category' });
+      toast.error(result.error ?? 'Failed to create category');
     }
   }
 

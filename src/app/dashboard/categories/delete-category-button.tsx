@@ -8,7 +8,8 @@ import { toast } from 'sonner';
 import { deleteCategory } from './actions';
 
 export function DeleteCategoryButton({ id, name }: { id: string; name: string }) {
-  const [isLoading, setIsLoading] = useState(false); // State for loading
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   async function handleDelete() {
     const formData = new FormData();
@@ -16,17 +17,20 @@ export function DeleteCategoryButton({ id, name }: { id: string; name: string })
     setIsLoading(true);
 
     try {
-      await deleteCategory(formData);
-      toast.success('Category deleted successfully');
-    } catch (error: any) {
-      toast.error(error.message);
+      const result = await deleteCategory(formData);
+      if (result.success) {
+        toast.success('Category deleted successfully');
+        setIsOpen(false);
+      } else {
+        toast.error(result.error || 'Failed to delete category');
+      }
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button size="icon" variant="ghost">
           <Trash2 className="size-4 text-muted-foreground" />
@@ -40,8 +44,8 @@ export function DeleteCategoryButton({ id, name }: { id: string; name: string })
 
         <AlertDialogFooter className="flex w-full items-center">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant="destructive" onClick={handleDelete}>
-            {isLoading ? <Loader2 className="animate-spin" /> : null}
+          <Button variant="destructive" onClick={handleDelete} disabled={isLoading}>
+            {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
             Delete
           </Button>
         </AlertDialogFooter>

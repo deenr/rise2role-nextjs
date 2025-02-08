@@ -16,16 +16,17 @@ export function DeleteJobApplicationButton({ id, jobTitle, category, onDialogClo
     formData.append('id', id);
     setIsLoading(true);
 
-    try {
+    const result = await deleteJobApplication(formData);
+
+    if (result.success) {
       await deleteJobApplication(formData);
       toast.success('Job application deleted successfully');
 
       onDialogClose();
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
+    } else {
+      toast.error(result.error ?? 'Failed to delete job application');
     }
+    setIsLoading(false);
   }
 
   return (

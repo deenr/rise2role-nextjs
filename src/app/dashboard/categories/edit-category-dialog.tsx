@@ -19,13 +19,14 @@ export function EditCategoryDialog({ id, name, color }: { id: string; name: stri
   const [message, setMessage] = useState<Message | null>(null);
 
   async function handleUpdateCategory(formData: FormData) {
-    try {
-      await updateCategory(formData);
+    const result = await updateCategory(formData);
+
+    if (result.success) {
       setIsOpen(false);
       toast.success('Category updated successfully');
-    } catch (error: any) {
-      setMessage({ error: error.message });
-      toast.error(error.message);
+    } else {
+      setMessage({ error: result.error ?? 'Failed to update category' });
+      toast.error(result.error ?? 'Failed to update category');
     }
   }
 
