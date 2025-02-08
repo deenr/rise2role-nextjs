@@ -32,10 +32,13 @@ export function ShareForm({ kanbanBoardId, sharedBoard }: { kanbanBoardId: strin
   async function handleUpdateSharedBoard(formData: FormData) {
     if (!isSharedEnabled) formData.append('urlToken', uniquePath);
 
-    try {
-      await updateSharedBoardAction(formData);
-    } catch (error: any) {
-      setMessage({ error: error.message });
+    const result = await updateSharedBoardAction(formData);
+
+    if (result.success) {
+      toast.success(isSharedEnabled ? 'Your board is now available through your URL' : 'Your board is not visible anymore');
+    } else {
+      setMessage({ error: result.error ?? 'Failed to update board visility' });
+      toast.error(result.error ?? 'Failed to update board visility');
     }
   }
 

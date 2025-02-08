@@ -3,83 +3,112 @@
 import { prisma } from '@/lib/prisma';
 import { createClient } from '@/utils/supabase/server';
 
-export const updateProfileAction = async (formData: FormData) => {
+interface ActionResult {
+  success: boolean;
+  error?: string;
+  data?: any;
+}
+
+export const updateProfileAction = async (formData: FormData): Promise<ActionResult> => {
   const id = formData.get('id') as string;
   const firstName = formData.get('firstName') as string;
   const lastName = formData.get('lastName') as string;
   const role = formData.get('role') as string;
 
-  if (!firstName) {
-    throw new Error('First name is required');
-  }
-  if (!lastName) {
-    throw new Error('Last name is required');
-  }
-  if (!role) {
-    throw new Error('Role is required');
+  if (!firstName || !lastName || !role) {
+    return {
+      success: false,
+      error: 'First name, last name, and role are required'
+    };
   }
 
   try {
-    await prisma.userProfile.update({
+    const profile = await prisma.userProfile.update({
       where: { id },
       data: { firstName, lastName, role }
     });
+    return {
+      success: true,
+      data: profile
+    };
   } catch (error) {
-    throw new Error('Failed to profile');
+    console.error('Update profile error:', error);
+    return {
+      success: false,
+      error: 'Failed to update profile'
+    };
   }
 };
 
-export const updateSharedBoardAction = async (formData: FormData) => {
+export const updateSharedBoardAction = async (formData: FormData): Promise<ActionResult> => {
   const enabled = formData.get('sharingEnabled') === 'true';
   const urlToken = formData.get('urlToken') as string;
   const kanbanBoardId = formData.get('kanbanBoardId') as string;
 
-  if (!urlToken && enabled) {
-    throw new Error('URL is required when sharing is enabled');
-  }
   if (!kanbanBoardId) {
-    throw new Error('Unable to update, try again later');
+    return {
+      success: false,
+      error: 'Unable to update, try again later'
+    };
+  }
+
+  if (!urlToken && enabled) {
+    return {
+      success: false,
+      error: 'URL is required when sharing is enabled'
+    };
   }
 
   try {
-    await prisma.sharedBoardLink.upsert({
+    const sharedBoard = await prisma.sharedBoardLink.upsert({
       where: { kanbanBoardId },
-      update: {
-        enabled,
-        linkToken: urlToken
-      },
-      create: {
-        kanbanBoardId,
-        enabled,
-        linkToken: urlToken
-      }
+      update: { enabled, linkToken: urlToken },
+      create: { kanbanBoardId, enabled, linkToken: urlToken }
     });
+    return {
+      success: true,
+      data: sharedBoard
+    };
   } catch (error) {
-    throw new Error('Failed to update the shared board');
+    console.error('Update shared board error:', error);
+    return {
+      success: false,
+      error: 'Failed to update the shared board'
+    };
   }
 };
 
-export const resetPasswordAction = async (formData: FormData) => {
+export const resetPasswordAction = async (formData: FormData): Promise<ActionResult> => {
   const supabase = await createClient();
-
   const password = formData.get('password') as string;
   const confirmPassword = formData.get('confirmPassword') as string;
 
   if (!password || !confirmPassword) {
-    throw new Error('Password and confirm password are required');
+    return {
+      success: false,
+      error: 'Password and confirm password are required'
+    };
   }
 
   if (password !== confirmPassword) {
-    throw new Error('Passwords do not match');
+    return {
+      success: false,
+      error: 'Passwords do not match'
+    };
   }
 
-  const { error } = await supabase.auth.updateUser({
-    password: password
-  });
+  const { error } = await supabase.auth.updateUser({ password });
 
   if (error) {
-    throw new Error('Password update failed');
+    console.error('Password update error:', error);
+    return {
+      success: false,
+      error: 'Password update failed'
+    };
   }
 
-  return 'Password updated successfully';
+  return {
+    success: true,
+    data: 'Password updated successfully'
+  };
 };

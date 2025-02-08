@@ -6,16 +6,20 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { resetPasswordAction } from './actions';
 
 export function ResetPasswordForm() {
   const [message, setMessage] = useState<Message | null>(null);
 
   async function handleResetPassword(formData: FormData) {
-    try {
-      await resetPasswordAction(formData);
-    } catch (error: any) {
-      setMessage({ error: error.message });
+    const result = await resetPasswordAction(formData);
+
+    if (result.success) {
+      toast.success('Your password has been changed succesfully');
+    } else {
+      setMessage({ error: result.error ?? 'Failed to update your password' });
+      toast.error(result.error ?? 'Failed to update your password');
     }
   }
 

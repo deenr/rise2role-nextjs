@@ -44,7 +44,7 @@ export function EditJobApplicationDialog({ jobApplication, categories, onDialogC
   };
 
   async function handleUpdateJobApplication(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
 
     const updatedData = { ...data, id: jobApplication.id, kanbanBoardId: jobApplication.kanbanBoardId };
     const result = await updateJobApplication(updatedData);

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { userProfile } from '@prisma/client';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { updateProfileAction } from '../actions';
 
 export function ProfileForm({ profile }: { profile: userProfile }) {
@@ -15,10 +16,13 @@ export function ProfileForm({ profile }: { profile: userProfile }) {
   const [message, setMessage] = useState<Message | null>(null);
 
   async function handleUpdateProfile(formData: FormData) {
-    try {
-      await updateProfileAction(formData);
-    } catch (error: any) {
-      setMessage({ error: error.message });
+    const result = await updateProfileAction(formData);
+
+    if (result.success) {
+      toast.success('Profile updated successfully');
+    } else {
+      setMessage({ error: result.error ?? 'Failed to update profile' });
+      toast.error(result.error ?? 'Failed to update profile');
     }
   }
 
